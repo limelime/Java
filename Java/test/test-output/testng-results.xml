@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" total="1" passed="1">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Default suite" duration-ms="33" started-at="2014-08-20T20:54:31Z" finished-at="2014-08-20T20:54:31Z">
+    <groups>
+    </groups>
+    <test name="Default test" duration-ms="33" started-at="2014-08-20T20:54:31Z" finished-at="2014-08-20T20:54:31Z">
+      <class name="net.xngo.utils.test.java.io.FileUtilsTest">
+        <test-method status="PASS" signature="readableFileSize()[pri:0, instance:net.xngo.utils.test.java.io.FileUtilsTest@1a2335d]" name="readableFileSize" duration-ms="19" started-at="2014-08-20T16:54:31Z" description="Check different sizes." finished-at="2014-08-20T16:54:31Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- readableFileSize -->
+      </class> <!-- net.xngo.utils.test.java.io.FileUtilsTest -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>
