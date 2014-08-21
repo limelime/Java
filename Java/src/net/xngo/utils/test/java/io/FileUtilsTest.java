@@ -33,7 +33,7 @@ public class FileUtilsTest
     
     for(int i=0; i<sizes.length; i++)
     {
-      assertEquals(FileUtils.readableFileSize(sizes[i]), expectedSizes[i], String.format("Failed at index=%d.", i));
+      assertEquals(FileUtils.readableFileSize(sizes[i]), expectedSizes[i], String.format("Failed at index=%d, size=%d bytes.", i, sizes[i]));
     }
   }
 }
