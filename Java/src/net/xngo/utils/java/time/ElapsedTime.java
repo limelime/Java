@@ -72,10 +72,10 @@ public class ElapsedTime
     System.out.println(String.format("Start at %s", this.getDateTimeFormatted(this.startTime)));
  
     // End at YYYY-MM-DD HH:MM:SS.mmm
-    System.out.println(String.format("End at   %s", this.getDateTimeFormatted(this.endTime)));
+    System.out.println(String.format("End   at %s", this.getDateTimeFormatted(this.endTime)));
     
     // Ran for HH:MM:SS.mmm (milliseconds)
-    System.out.println(String.format("Ran for  %s", this.getDiffInString()));
+    System.out.println(String.format("Ran  for %s", this.getDiffInString()));
     
   }
  
