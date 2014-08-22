@@ -50,18 +50,17 @@ public class ElapsedTime
    */
   public final String getDiffInString()
   {
-    /***********************
-     * Calculate statistics. 
-     ***********************/
+
     long lTotalRuntime = this.getDiffInMillis();
-    long lRuntime = lTotalRuntime;
+    long lRuntime      = lTotalRuntime;
  
+    // Calculate hours, minutes and seconds.     
     long lRuntimeHrs = lRuntime/(1000*3600);
-    lRuntime = lRuntime - (lRuntimeHrs*1000*3600);// Runtime remaining.
+    lRuntime         = lRuntime - (lRuntimeHrs*1000*3600);// Runtime remaining.
     long lRuntimeMin = (lRuntime)/(1000*60);
-    lRuntime = lRuntime - (lRuntimeMin*1000*60);  // Runtime remaining.
+    lRuntime         = lRuntime - (lRuntimeMin*1000*60);  // Runtime remaining.
     long lRuntimeSec = lRuntime/(1000);
-    lRuntime = lRuntime - (lRuntimeSec*1000);     // Runtime remaining.
+    lRuntime         = lRuntime - (lRuntimeSec*1000);     // Runtime remaining.
  
     return String.format("%02d", lRuntimeHrs)+":"+String.format("%02d", lRuntimeMin)+":"+String.format("%02d", lRuntimeSec)+"."+lRuntime;
   }
