@@ -21,11 +21,22 @@ public class ElapsedTime
   {
     this.startTime = Calendar.getInstance();
   }
+  
+  public void setStart(final Calendar calendar)
+  {
+    this.startTime = calendar;
+  }
+  
   public void stop()
   {
     this.endTime = Calendar.getInstance();
   }
  
+  public void setStop(final Calendar calendar)
+  {
+    this.endTime = calendar;
+  }
+  
   /**
    * @return Return the elapsed time measured in milliseconds.
    */
@@ -55,21 +66,22 @@ public class ElapsedTime
     return String.format("%02d", lRuntimeHrs)+":"+String.format("%02d", lRuntimeMin)+":"+String.format("%02d", lRuntimeSec)+"."+lRuntime;
   }
  
-  public void report()
+  public void display()
   {
     // Start at YYYY-MM-DD HH:MM:SS.mmm
-    System.out.println("\nStart at "+this.getDateTimeFormatted(this.startTime));
- 
-    // Ran for HH:MM:SS.mmm (milliseconds)
-    System.out.println("Ran for "+this.getDiffInString());
+    System.out.println(String.format("Start at %s", this.getDateTimeFormatted(this.startTime)));
  
     // End at YYYY-MM-DD HH:MM:SS.mmm
-    System.out.println("End at "+this.getDateTimeFormatted(this.endTime));
+    System.out.println(String.format("End at   %s", this.getDateTimeFormatted(this.endTime)));
+    
+    // Ran for HH:MM:SS.mmm (milliseconds)
+    System.out.println(String.format("Ran for  %s", this.getDiffInString()));
+    
   }
  
   private final String getDateTimeFormatted(Calendar oCalendar)
   {
-    final String dateFormat = "yyyy-MM-dd_HH:mm:ss.SSSS";
+    final String dateFormat = "yyyy-MM-dd HH:mm:ss.SSSS";
  
     Date currentDate = oCalendar.getTime();
     SimpleDateFormat oSimpleDateFormat = new SimpleDateFormat(dateFormat);
