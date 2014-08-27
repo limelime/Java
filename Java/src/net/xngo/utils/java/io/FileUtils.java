@@ -1,6 +1,8 @@
 package net.xngo.utils.java.io;
 
 import java.text.DecimalFormat;
+import java.io.File;
+import java.util.List;
 
 public class FileUtils
 {
@@ -18,6 +20,16 @@ public class FileUtils
     final String[] units = new String[] { "bytes", "KB", "MB", "GB", "TB", "PB", "EB" };
     int digitGroups = (int) (Math.log10(size)/Math.log10(1024));
     return new DecimalFormat("#,##0.##").format(size/Math.pow(1024, digitGroups)) + " " + units[digitGroups];
+  }
+  
+  public static long getTotalSize(List<File> files)
+  {
+    int size = 0;
+    for(File f: files)
+    {
+      size += f.length();
+    }
+    return size;
   }
   
 }
