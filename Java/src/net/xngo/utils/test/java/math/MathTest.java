@@ -1,0 +1,35 @@
+package net.xngo.utils.test.java.math;
+
+import static org.testng.Assert.assertEquals;
+
+import net.xngo.utils.java.math.Math;
+
+import org.testng.annotations.Test;
+
+public class MathTest
+{
+  @Test(description="Test positive percentage.")
+  public void percentagePositive()
+  {
+    assertEquals(Math.percentage(1, 2), 50.0);
+  }
+  
+  @Test(description="Test negative percentage.")
+  public void percentageNegative()
+  {
+    assertEquals(Math.percentage(-1, 2), -50.0);
+  }
+  
+  @Test(description="Test readable positive percentage.")
+  public void getReadablePercentagePositive()
+  {
+    assertEquals(Math.getReadablePercentage(1, 60), "1.67%");
+  }
+  
+  @Test(description="Test readable positive percentage, over 100.")
+  public void getReadablePercentageOver100()
+  {
+    assertEquals(Math.getReadablePercentage(7, 3), "233.33%");
+  }
+  
+}
