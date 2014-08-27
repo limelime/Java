@@ -3,6 +3,7 @@ package net.xngo.utils.java.io;
 import java.text.DecimalFormat;
 import java.io.File;
 import java.util.List;
+import java.util.Set;
 
 public class FileUtils
 {
@@ -24,7 +25,7 @@ public class FileUtils
   
   public static long getTotalSize(List<File> files)
   {
-    int size = 0;
+    long size = 0;
     for(File f: files)
     {
       size += f.length();
@@ -32,4 +33,13 @@ public class FileUtils
     return size;
   }
   
+  public static long getTotalSize(Set<File> files)
+  {
+    long size = 0;
+    for(File f: files)
+    {
+      size += f.length();
+    }
+    return size;
+  }  
 }
