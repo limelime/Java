@@ -15,7 +15,7 @@ public class FileUtils
    * @param size
    * @return a human-readable display value (includes units - EB, PB, TB, GB, MB, KB or bytes).
    */
-  public static String readableFileSize(long size) 
+  public static String readableSize(long size) 
   {
     if(size <= 1) return size +" byte";
     final String[] units = new String[] { "bytes", "KB", "MB", "GB", "TB", "PB", "EB" };
@@ -23,7 +23,7 @@ public class FileUtils
     return new DecimalFormat("#,##0.##").format(size/Math.pow(1024, digitGroups)) + " " + units[digitGroups];
   }
   
-  public static long getTotalSize(List<File> files)
+  public static long totalSize(List<File> files)
   {
     long size = 0;
     for(File f: files)
@@ -33,7 +33,7 @@ public class FileUtils
     return size;
   }
   
-  public static long getTotalSize(Set<File> files)
+  public static long totalSize(Set<File> files)
   {
     long size = 0;
     for(File f: files)
@@ -41,5 +41,6 @@ public class FileUtils
       size += f.length();
     }
     return size;
-  }  
+  }
+
 }
