@@ -14,10 +14,18 @@ public class MathTest
     assertEquals(Math.percentage(1, 2), 50.0);
   }
   
+  
+  
   @Test(description="Test negative percentage.")
   public void percentageNegative()
   {
     assertEquals(Math.percentage(-1, 2), -50.0);
+  }
+  
+  @Test(description="Test 100%.")
+  public void percentage100()
+  {
+    assertEquals(Math.percentage(56252470681L, 56252470681L), 100.0);
   }
   
   @Test(description="Test readable positive percentage.")
@@ -31,5 +39,11 @@ public class MathTest
   {
     assertEquals(Math.getReadablePercentage(7, 3), "233.33%");
   }
+  
+  @Test(description="Test 100%..")
+  public void getReadablePercentage100()
+  {
+    assertEquals(Math.getReadablePercentage(56252470681L, 56252470681L), "100.00%");
+  }  
   
 }
