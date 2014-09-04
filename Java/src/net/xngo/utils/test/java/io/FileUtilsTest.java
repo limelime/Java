@@ -1,10 +1,12 @@
 package net.xngo.utils.test.java.io;
 
-import static org.testng.Assert.assertEquals;
+import java.io.File;
 
 import net.xngo.utils.java.io.FileUtils;
 
-
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.assertFalse;
 import org.testng.annotations.Test;
 
 public class FileUtilsTest
@@ -33,7 +35,9 @@ public class FileUtilsTest
     
     for(int i=0; i<sizes.length; i++)
     {
-      assertEquals(FileUtils.readableFileSize(sizes[i]), expectedSizes[i], String.format("Failed at index=%d, size=%d bytes.", i, sizes[i]));
+      assertEquals(FileUtils.readableSize(sizes[i]), expectedSizes[i], String.format("Failed at index=%d, size=%d bytes.", i, sizes[i]));
     }
+    
   }
+  
 }
