@@ -40,7 +40,7 @@ public class Hash
       }
       
       fileInputStream.close();
-      return hash32.getValue()+""; // Force to be a string so that if we can change to use another hashing algorithm.
+      return hash32.getValue()+""; // Force to be a string to normalize with other hashing algorithm.
       
     }
     catch(UnsupportedEncodingException ex)
