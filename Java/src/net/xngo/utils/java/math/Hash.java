@@ -8,6 +8,12 @@ import java.io.UnsupportedEncodingException;
 import net.jpountz.xxhash.StreamingXXHash32;
 import net.jpountz.xxhash.XXHashFactory;
 
+/**
+ * Hold all different hashing algorithms.
+ * All methods should return their value as string.
+ * @author Xuan Ngo
+ *
+ */
 public class Hash
 {
 
