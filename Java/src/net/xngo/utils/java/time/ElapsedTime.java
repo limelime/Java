@@ -62,7 +62,7 @@ public class ElapsedTime
     long lRuntimeSec = lRuntime/(1000);
     lRuntime         = lRuntime - (lRuntimeSec*1000);     // Runtime remaining.
  
-    return String.format("%02d", lRuntimeHrs)+":"+String.format("%02d", lRuntimeMin)+":"+String.format("%02d", lRuntimeSec)+"."+lRuntime;
+    return String.format("%02d:%02d:%02d.%d", lRuntimeHrs, lRuntimeMin, lRuntimeSec, lRuntime);
   }
  
   public void display()
@@ -75,7 +75,6 @@ public class ElapsedTime
     
     // Ran for HH:MM:SS.mmm (milliseconds)
     System.out.println(String.format("Ran  for %s", this.getDiffInString()));
-    
   }
  
   private final String getDateTimeFormatted(Calendar oCalendar)
