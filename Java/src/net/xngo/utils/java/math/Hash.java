@@ -70,4 +70,14 @@ public class Hash
     return null;
   }
   
+  /**
+   * @deprecated Not implemented yet.
+   * @param file
+   * @return
+   */
+  public String md5(File file)
+  {
+    // See http://www.asjava.com/core-java/java-md5-example/
+    return null;
+  }
 }
