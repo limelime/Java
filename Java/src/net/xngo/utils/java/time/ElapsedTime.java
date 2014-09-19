@@ -14,10 +14,6 @@ public class ElapsedTime
   private Calendar startTime = null;
   private Calendar endTime   = null;
  
-  private String startTimeString    = "";
-  private String endTimeString      = "";
-  private String elapsedTimeString  = "";
- 
   public ElapsedTime(){}
  
   public void start()
@@ -48,21 +44,6 @@ public class ElapsedTime
     return this.endTime.getTimeInMillis() - this.startTime.getTimeInMillis();
   }
  
-  public void display()
-  {
-    // Start at YYYY-MM-DD HH:MM:SS.mmm
-    this.startTimeString = String.format("Start at %s", this.getStartTime());
-    System.out.println(this.startTimeString);
-    
-    // End at YYYY-MM-DD HH:MM:SS.mmm
-    this.endTimeString = String.format("End   at %s", this.getEndTime());
-    System.out.println(this.endTimeString);
-    
-    // Ran for HH:MM:SS.mmm (milliseconds)
-    this.elapsedTimeString = String.format("Ran  for %s", this.getElapsedTime());
-    System.out.println(this.elapsedTimeString);
-  }
-  
   public String getStartTime()
   {
     return this.getDateTimeFormatted(this.startTime);

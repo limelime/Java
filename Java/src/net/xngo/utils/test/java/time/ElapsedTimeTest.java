@@ -28,8 +28,6 @@ public class ElapsedTimeTest
     elapsedTime.setStop(later);
     
     assertEquals(elapsedTime.getElapsedTime(), "24:59:01.0");
-    
-    elapsedTime.display();
   }
 
   
