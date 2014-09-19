@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 public class ElapsedTimeTest
 {
   @Test(description="Check day, minutes, hours, seconds.")
-  public void getDiffInString()
+  public void getElapsedTime()
   {
     Calendar now = Calendar.getInstance();
     Calendar later = Calendar.getInstance();
@@ -27,7 +27,7 @@ public class ElapsedTimeTest
     
     elapsedTime.setStop(later);
     
-    assertEquals(elapsedTime.getDiffInString(), "24:59:01.0");
+    assertEquals(elapsedTime.getElapsedTime(), "24:59:01.0");
     
     elapsedTime.display();
   }
