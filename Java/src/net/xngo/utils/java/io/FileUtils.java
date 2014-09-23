@@ -7,11 +7,16 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.nio.charset.Charset;
 
 import org.apache.commons.io.filefilter.TrueFileFilter;
 
 public class FileUtils
 {
+  
+
+  private static final Charset UTF8_CHARSET = Charset.forName("UTF-8");
+  
   /**
    * Return human readable file size. This function is limited to exabyte.
    * Note: How to handle overflow or underflow of long?
@@ -53,7 +58,7 @@ public class FileUtils
    * @param paths
    * @return list of unique files
    */
-  public static Set<File> listFiles(Set<File> paths)
+  public static Set<File> listFiles(List<File> paths)
   {
     Set<File> listOfAllUniqueFiles = new HashSet<File>();
     
@@ -82,11 +87,31 @@ public class FileUtils
       }
       else
       {
-        System.out.println(String.format("[Warning] -> [%s] doesn't exist.", path.getAbsolutePath()));
+        try
+        {
+          System.out.println(String.format("[Warning] -> [%s] doesn't exist.", path.getCanonicalPath()));
+        }
+        catch(IOException ex)
+        {
+          ex.printStackTrace();
+        }
       }
     }
     
     return listOfAllUniqueFiles;
   }
   
+  public static String load(String filepath)
+  {
+    File file = new File(filepath);
+    try
+    {
+      return org.apache.commons.io.FileUtils.readFileToString(file, UTF8_CHARSET);
+    }
+    catch(IOException ex)
+    {
+      ex.printStackTrace();
+    }
+    throw new RuntimeException("Unexpected error: This code line in FileUtils.load() should never be executed.");
+  }
 }
