@@ -18,8 +18,6 @@ public class ConnectionTest
   private final String jdbcClassLoader  = "org.sqlite.JDBC";
   private final String dbUrlMemory      = "jdbc:sqlite::memory:"; 
 
-
-  
   @Test(description="Test CREATE a table, INSERT a row, SELECT a row.")
   public void createInsertSelect()
   {
@@ -95,9 +93,8 @@ public class ConnectionTest
     }
     catch(SQLException ex)
     {
-      // Close everything as if it was a crash.
+      // Close everything to simulate a crash.
       this.connection.close();
-      ex.printStackTrace();
     }
     catch(IOException ex){ ex.printStackTrace(); } // Handling exception for File.createTempFile().
     finally
@@ -135,6 +132,52 @@ public class ConnectionTest
       }
       catch(SQLException ex){ ex.printStackTrace(); }
     }
+  }
+  
+  @Test(description="Test rollback().")
+  public void rollback()
+  {
+    final String commitFirstname    = "Xuan";
+    final String commitLastname     = "Ngo";
+    final String rollbackFirstname  = "John";
+    final String rollbackLastname   = "Smith";    
+    try
+    {
+      // Create default database.
+      this.createDefaultDatabase();
+      this.connection.setAutoCommit(false);
+      
+      /** Creating committed test data **/
+      this.addPerson(commitFirstname, commitLastname);
+      this.connection.commit();
+      
+      /** Main test **/
+      // Add a new person and make sure you can query that person.
+      this.addPerson(rollbackFirstname, rollbackLastname);
+      ResultSet uncommitSet = this.getPerson(rollbackFirstname, rollbackLastname);
+      int rows = 0;
+      while(uncommitSet.next())
+      {
+        rows++;
+      }      
+      assertEquals(rows, 1, String.format("There should be only 1 row returned because %s, %s is added.", rollbackFirstname, rollbackLastname));
+      
+      // Rollback the new person.
+      this.connection.rollback();
+      uncommitSet = this.getPerson(rollbackFirstname, rollbackLastname);
+      rows = 0;
+      while(uncommitSet.next())
+      {
+        rows++;
+      }      
+      assertEquals(rows, 0, String.format("There should be no row returned because %s, %s is rolled back.", rollbackFirstname, rollbackLastname));      
+
+    }
+    catch(SQLException ex)
+    {
+      ex.printStackTrace();
+    }
+    
   }
   
   
