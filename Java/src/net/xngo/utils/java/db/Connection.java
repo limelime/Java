@@ -65,6 +65,7 @@ public class Connection
   {
     this.connection.setAutoCommit(autoCommit);
   }
+  
   public void commit() throws SQLException
   {
     this.connection.commit();
