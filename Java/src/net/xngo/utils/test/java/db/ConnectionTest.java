@@ -57,7 +57,7 @@ public class ConnectionTest
       
       // Clean up.
       DbUtils.close(resultSet);
-      connection.closePStatement();
+      connection.closePreparedStatement();
       
     }
     catch(SQLException ex)

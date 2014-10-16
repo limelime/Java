@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import net.xngo.utils.java.util.CircularList;
+import net.xngo.utils.java.util.CircularArrayList;
 
 public class Connection
 {
@@ -17,13 +17,13 @@ public class Connection
   private boolean           log         = false;
   private String            query       = "";
   private ArrayList<String> values      = new ArrayList<String>();
-  private CircularList<String> queries = null;
+  private CircularArrayList<String> queries = null;
   
   
   public Connection(boolean log, int queryLogSize)
   {
     this.log      = log;
-    this.queries  = new CircularList<String>(queryLogSize);
+    this.queries  = new CircularArrayList<String>(queryLogSize);
   }
   
   public Connection()
@@ -81,9 +81,9 @@ public class Connection
   
   public PreparedStatement prepareStatement(String sql) throws SQLException
   {
-    // Reset query info.
-    this.query = sql; // Log the query string.
-    this.values.clear();
+    // New query.
+    this.query = sql;     // Update query string. 
+    this.values.clear();  // Reset query values.
     
     this.preparedStatement = this.connection.prepareStatement(sql);
     return this.preparedStatement;
@@ -98,7 +98,6 @@ public class Connection
   {
     if(this.log) { this.queries.add(this.getQueryString()); }
     
-    //System.out.println(this.getQueryString());
     return this.preparedStatement.executeQuery();    
   }
   
@@ -114,7 +113,7 @@ public class Connection
     try
     {
       if(this.log) { this.queries.add(this.getQueryString()); }
-      //System.out.println(this.getQueryString());
+
       return this.preparedStatement.executeUpdate();
     }
     catch(SQLException ex)
@@ -162,7 +161,7 @@ public class Connection
     this.preparedStatement.setLong(parameterIndex, x);
   }
   
-  public void closePStatement()
+  public void closePreparedStatement()
   {
     try
     {
@@ -180,7 +179,7 @@ public class Connection
   public void close()
   {
     // Close prepared statement.
-    this.closePStatement();
+    this.closePreparedStatement();
     
     // Close connection.
     try
@@ -216,19 +215,9 @@ public class Connection
     }
   }
   
-  public void displayLoggedQueries()
+  public ArrayList<String> getLoggedQueries()
   {
-    if(this.log)
-    {
-      System.out.println(String.format("============ Last %d queries logged start here ============", this.queries.getMaxSize()));
-      for(String query: this.queries)
-      {
-        System.out.println(query);
-      }
-      System.out.println("============ Logged queries end ============");
-    }
-    else
-      System.out.println("You are using displayLoggedQueries() but you didn't enable logging. Use Connection(boolean log, int queryLogSize).");
+    return this.queries;
   }
   
 }
