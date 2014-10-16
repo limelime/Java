@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import net.xngo.utils.java.util.CircularList;
+
 public class Connection
 {
   public java.sql.Connection  connection        = null;
@@ -15,13 +17,13 @@ public class Connection
   private boolean           log         = false;
   private String            query       = "";
   private ArrayList<String> values      = new ArrayList<String>();
-  private LimitedSizeQueue<String> queries = null;
+  private CircularList<String> queries = null;
   
   
   public Connection(boolean log, int queryLogSize)
   {
     this.log      = log;
-    this.queries  = new LimitedSizeQueue<String>(queryLogSize);
+    this.queries  = new CircularList<String>(queryLogSize);
   }
   
   public Connection()
