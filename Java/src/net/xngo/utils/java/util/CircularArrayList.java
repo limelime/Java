@@ -7,7 +7,7 @@ import java.util.ArrayList;
  *
  * @param <E>
  */
-public class CircularList<E> extends ArrayList<E> 
+public class CircularArrayList<E> extends ArrayList<E> 
 {
   
   /**
@@ -18,7 +18,7 @@ public class CircularList<E> extends ArrayList<E>
   private int maxSize;
   private int position = 0;
 
-  public CircularList(int size)
+  public CircularArrayList(int size)
   {
     this.maxSize = size;
   }

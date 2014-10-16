@@ -3,15 +3,15 @@ package net.xngo.utils.test.java.util;
 import static org.testng.Assert.assertEquals;
 import org.testng.annotations.Test;
 
-import net.xngo.utils.java.util.CircularList;
+import net.xngo.utils.java.util.CircularArrayList;
 
-public class CircularListTest
+public class CircularArrayListTest
 {
   @Test(description="Test get max size.")
   public void getMaxSize()
   {
     final int expectedMaxSize = 3;
-    CircularList<String> circularList = new CircularList<String>(expectedMaxSize);
+    CircularArrayList<String> circularList = new CircularArrayList<String>(expectedMaxSize);
     
     // Add more than expected max size.
     for(int i=0; i<expectedMaxSize+3; i++)
@@ -27,7 +27,7 @@ public class CircularListTest
   {
     final String[] oldValues = {"1", "2", "3"};
     final String[] newValues = {"4", "5", "6"};
-    CircularList<String> circularList = new CircularList<String>(oldValues.length);
+    CircularArrayList<String> circularList = new CircularArrayList<String>(oldValues.length);
     
     // Add values in list.
     for(int i=0; i<oldValues.length; i++)
