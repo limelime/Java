@@ -129,8 +129,8 @@ public class Connection
   
   public void setString(int parameterIndex, String x) throws SQLException
   {
-    
     // Log query value.
+    //  Make NULL or empty value more explicite.
     if(x == null)
       this.values.add("<null>");
     else
@@ -141,7 +141,6 @@ public class Connection
         this.values.add(x);
     }
 
-    
     this.preparedStatement.setString(parameterIndex, x);
   }
   
