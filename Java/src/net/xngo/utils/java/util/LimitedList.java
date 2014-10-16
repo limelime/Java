@@ -1,4 +1,4 @@
-package net.xngo.utils.java.db;
+package net.xngo.utils.java.util;
 
 import java.util.ArrayList;
 /**
@@ -7,17 +7,17 @@ import java.util.ArrayList;
  *
  * @param <K>
  */
-public class LimitedSizeQueue<K> extends ArrayList<K> 
+public class LimitedList<K> extends ArrayList<K> 
 {
-
+  
   /**
    * 
    */
-  private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 2784995695378956707L;
   
   private int maxSize;
 
-  public LimitedSizeQueue(int size)
+  public LimitedList(int size)
   {
     this.maxSize = size;
   }
