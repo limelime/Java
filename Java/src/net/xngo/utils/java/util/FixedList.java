@@ -7,7 +7,7 @@ import java.util.ArrayList;
  *
  * @param <K>
  */
-public class LimitedList<K> extends ArrayList<K> 
+public class FixedList<K> extends ArrayList<K> 
 {
   
   /**
@@ -17,7 +17,7 @@ public class LimitedList<K> extends ArrayList<K>
   
   private int maxSize;
 
-  public LimitedList(int size)
+  public FixedList(int size)
   {
     this.maxSize = size;
   }
