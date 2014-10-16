@@ -33,7 +33,7 @@ public class CircularArrayList<E> extends ArrayList<E>
     this.position++;
     
     // Return something so that it has the same 
-    //  signature than java.util.ArrayList<E>.add(E e).
+    //  signature as java.util.ArrayList<E>.add(E e).
     return false; 
   }
   
