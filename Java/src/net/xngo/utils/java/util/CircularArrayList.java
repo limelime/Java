@@ -1,8 +1,12 @@
 package net.xngo.utils.java.util;
 
 import java.util.ArrayList;
+
 /**
- * http://stackoverflow.com/questions/1963806/is-there-a-fixed-sized-queue-which-removes-excessive-elements
+ * Simple circular array list. It is not full proof.
+ * Notes:
+ *  -add(E e): Always return false so that it has the same signature as java.util.ArrayList<E>.add(E e).
+ *  -Remove an element is not tested yet.
  * @author Xuan Ngo
  *
  * @param <E>
@@ -15,30 +19,63 @@ public class CircularArrayList<E> extends ArrayList<E>
    */
   private static final long serialVersionUID = 2784995695378956707L;
   
-  private int maxSize;
-  private int position = 0;
+  private int capacity = 0;
+  private int head     = 0;
 
-  public CircularArrayList(int size)
+  public CircularArrayList(int capacity)
   {
-    this.maxSize = size;
+    super(capacity);    
+    this.capacity = capacity;
+
   }
 
   @Override
   public boolean add(E e)
   {
-    if(!(this.position<this.maxSize))
-      this.position = 0;
-      
-    super.add(this.position, e);
-    this.position++;
+
+    this.add(this.head, e);
     
     // Return something so that it has the same 
     //  signature as java.util.ArrayList<E>.add(E e).
     return false; 
   }
   
-  public int getMaxSize()
+  @Override
+  public void add(int index, E element)
   {
-    return this.maxSize;
+    if(this.head<this.capacity)
+    {
+      if(super.size()==this.capacity)
+        super.set(this.head, element);
+      else
+        super.add(this.head, element);
+      
+      this.head++;
+    }
+    else
+    {
+      this.head = 0;
+      super.set(this.head, element);
+      this.head++;
+    }    
   }
+  
+  
+  @Override
+  public E get(int index)
+  {
+    if(index<0)
+      throw new IndexOutOfBoundsException(String.format("Negative index value(%d) is not allowed.", index));
+    
+    if(index>this.head)
+      throw new IndexOutOfBoundsException(String.format("Index value(%d) is not allowed to be equal or bigger than the array size(%d).", index, this.capacity()));
+    
+    return super.get(index%this.head);
+  }
+  
+  public int capacity()
+  {
+    return this.capacity;
+  }
+  
 }

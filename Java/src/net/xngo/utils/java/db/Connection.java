@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import net.xngo.utils.java.util.CircularArrayList;
 
@@ -215,7 +216,7 @@ public class Connection
     }
   }
   
-  public ArrayList<String> getLoggedQueries()
+  public List<String> getLoggedQueries()
   {
     return this.queries;
   }
