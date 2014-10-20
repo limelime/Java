@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 
 public class Math
 {
+
   public static double percentage(long a, long b)
   {
     return ((double)a/(double)b)*100.0;
@@ -15,4 +16,5 @@ public class Math
     
     return new DecimalFormat("0.00").format(percent)+"%";
   }
+  
 }

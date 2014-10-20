@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_jars" name="Create jar files.">
+  
+  <property name="release.directory" value="./releases/"/>
+  <property name="jar.file.no.libs" value="${release.directory}/net.xngo.utils.jar"/>
+	<property name="jar.file.standalone" value="${release.directory}/net.xngo.utils-standalone.jar"/>
+  
+  <target name="create_jars">
+  	
+  	<!-- Create jar file without library files. -->
+    <jar destfile="${jar.file.no.libs}">
+      <fileset dir="./bin">
+        <exclude name="**/test/**"/>
+      </fileset>
+    </jar>
+  	
+  	<!-- Create standalone jar file -->
+    <jar destfile="${jar.file.standalone}">
+      <!-- Add Binary -->
+      <fileset dir="./bin">
+        <exclude name="**/test/**"/>
+      </fileset>
+      <!-- Add Library -->
+      <zipfileset dir="./lib" includes="*.jar" excludes="testng*.jar"/>
+    </jar>
+
+  </target>
+
+  
+</project>
