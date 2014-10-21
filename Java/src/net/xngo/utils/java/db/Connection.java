@@ -11,10 +11,20 @@ public class Connection
   public java.sql.Connection  connection        = null;
   public PreparedStatement    preparedStatement = null;
   
-  private String            query       = "";
-  private ArrayList<String> values      = new ArrayList<String>();
+  private String            query   = "";
+  private ArrayList<String> values  = new ArrayList<String>();
 
-
+  public Connection()
+  {
+    try
+    {
+      this.setAutoCommit(false); // By default, force to make transactions atomic.
+    }
+    catch(SQLException ex)
+    {
+      ex.printStackTrace();
+    }
+  }
   /****************************************************************************
    * 
    *                             GENERIC FUNCTIONS
