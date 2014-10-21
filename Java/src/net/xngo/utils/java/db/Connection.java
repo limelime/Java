@@ -5,34 +5,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
-
-import net.xngo.utils.java.util.CircularArrayList;
 
 public class Connection
 {
   public java.sql.Connection  connection        = null;
   public PreparedStatement    preparedStatement = null;
   
-  // Logging purposed only.
-  private boolean           log         = false;
   private String            query       = "";
   private ArrayList<String> values      = new ArrayList<String>();
-  private CircularArrayList<String> queries = null;
-  
-  
-  public Connection(boolean log, int queryLogSize)
-  {
-    this.log      = log;
-    this.queries  = new CircularArrayList<String>(queryLogSize);
-  }
-  
-  public Connection()
-  {
-    this(false, 0);
-  }
-  
-  
+
+
   /****************************************************************************
    * 
    *                             GENERIC FUNCTIONS
@@ -97,8 +79,6 @@ public class Connection
    */
   public ResultSet executeQuery() throws SQLException
   {
-    if(this.log) { this.queries.add(this.getQueryString()); }
-    
     return this.preparedStatement.executeQuery();    
   }
   
@@ -113,8 +93,6 @@ public class Connection
   {
     try
     {
-      if(this.log) { this.queries.add(this.getQueryString()); }
-
       return this.preparedStatement.executeUpdate();
     }
     catch(SQLException ex)
@@ -132,7 +110,7 @@ public class Connection
   public void setString(int parameterIndex, String x) throws SQLException
   {
     // Log query value.
-    //  Make NULL or empty value more explicite.
+    //  Make NULL or empty value more explicit.
     if(x == null)
       this.values.add("<null>");
     else
@@ -214,11 +192,6 @@ public class Connection
     {
       return this.query;
     }
-  }
-  
-  public List<String> getLoggedQueries()
-  {
-    return this.queries;
   }
   
 }
