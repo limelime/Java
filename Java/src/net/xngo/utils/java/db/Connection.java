@@ -16,14 +16,6 @@ public class Connection
 
   public Connection()
   {
-    try
-    {
-      this.setAutoCommit(false); // By default, force to make transactions atomic.
-    }
-    catch(SQLException ex)
-    {
-      ex.printStackTrace();
-    }
   }
   /****************************************************************************
    * 
@@ -44,6 +36,9 @@ public class Connection
       
       // Create a database connection
       this.connection = DriverManager.getConnection(dbUrl);
+      
+      // By default, force to make transactions atomic.
+      this.setAutoCommit(false); 
     }
     catch(SQLException e)
     {
