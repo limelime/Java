@@ -18,7 +18,7 @@ public class ConnectionTest
   private final String jdbcClassLoader  = "org.sqlite.JDBC";
   private final String dbUrlMemory      = "jdbc:sqlite::memory:"; 
 
-  @Test(description="Test CREATE a table, INSERT a row, SELECT a row.")
+  @Test(description="CREATE a table, INSERT a row, SELECT a row.")
   public void createInsertSelect()
   {
     try
@@ -131,6 +131,21 @@ public class ConnectionTest
         assertEquals(rows, 0, String.format("Data(%s, %s) are not committed yet. There should be no row returned.", uncommitFirstname, uncommitLastname));
       }
       catch(SQLException ex){ ex.printStackTrace(); }
+    }
+  }
+  
+  @Test(description="Commit without anything to commit.")
+  public void commitEmpty()
+  {
+    this.createDefaultDatabase();
+    try
+    {
+      this.connection.commit();
+      this.connection.commit();
+    }
+    catch(SQLException ex)
+    {
+      ex.printStackTrace();
     }
   }
   
