@@ -37,7 +37,7 @@ public class Connection
       // Create a database connection
       this.connection = DriverManager.getConnection(dbUrl);
       
-      // By default, force to make transactions atomic.
+      // By default, force set of transactions atomic.
       this.setAutoCommit(false); 
     }
     catch(SQLException e)
