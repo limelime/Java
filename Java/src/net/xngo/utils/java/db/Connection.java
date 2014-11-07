@@ -58,7 +58,9 @@ public class Connection
   
   public void commit() throws SQLException
   {
-    this.connection.commit();
+    // commit() only if autocommit is off.
+    if(!this.connection.getAutoCommit())
+      this.connection.commit();
   }
   
   public void rollback() throws SQLException
@@ -144,6 +146,15 @@ public class Connection
     
     this.preparedStatement.setLong(parameterIndex, x);
   }
+  
+  public void setObject(int parameterIndex, Object x) throws SQLException
+  {
+    // Log query value.
+    this.values.add(x.toString());
+    
+    this.preparedStatement.setObject(parameterIndex, x);    
+  }
+  
   
   public void closePreparedStatement()
   {
