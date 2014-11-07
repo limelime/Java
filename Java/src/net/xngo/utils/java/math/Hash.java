@@ -3,6 +3,7 @@ package net.xngo.utils.java.math;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 
 import net.jpountz.xxhash.StreamingXXHash32;
@@ -55,16 +56,11 @@ public class Hash
     }
     catch(IOException ex)
     {
-      // Throw an exception if file is locked.
-      if(ex.getMessage().compareTo("The process cannot access the file because another process has locked a portion of the file")==0)
-      {
-        // Construct exception.
-        RuntimeException fileLockedException = new RuntimeException(ex.getMessage()+"("+file.getAbsolutePath()+").");
-        fileLockedException.setStackTrace(ex.getStackTrace());
-        throw fileLockedException;
-      }
-      else
-        ex.printStackTrace();
+      // Rethrow an exception.
+      RuntimeException rException = new RuntimeException(ex.getMessage()+"("+file.getAbsolutePath()+").");
+      rException.setStackTrace(ex.getStackTrace());
+      throw rException;
+      
     }
     
     return null;
