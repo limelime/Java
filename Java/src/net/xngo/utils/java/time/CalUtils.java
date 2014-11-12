@@ -7,6 +7,7 @@ import java.util.Date;
 public class CalUtils
 {
   /**
+   * Return Calendar to a specified format.
    * For more details about dateFormat, see http://docs.oracle.com/javase/6/docs/api/java/text/SimpleDateFormat.html
    * @param cal
    * @param dateFormat e.g. "yyyy-MM-dd HH:mm:ss.SSSS"
