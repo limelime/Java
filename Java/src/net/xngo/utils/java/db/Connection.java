@@ -4,6 +4,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.DatabaseMetaData;
 import java.util.ArrayList;
 
 public class Connection
@@ -25,7 +26,7 @@ public class Connection
   
   /**
    * @param jdbcClassLoader e.g. "org.sqlite.JDBC"
-   * @param url e.g. "jdbc:sqlite:database_file_path"
+   * @param url e.g. "jdbc:sqlite:<database_file_path>" or "jdbc:sqlite::memory:"
    */
   public void connect(String jdbcClassLoader, String dbUrl)
   {
@@ -208,6 +209,61 @@ public class Connection
     {
       return this.query;
     }
+  }
+  
+  public boolean isColumnExists(String tableName, String columnName)
+  {
+    // Validate input values.
+    if(tableName==null)
+      return false;
+    if(tableName.isEmpty())
+      return false;
+    
+    if(columnName==null)
+      return false;
+    if(columnName.isEmpty())
+      return false;
+    
+    // Main logic start here.
+    try
+    {
+      DatabaseMetaData metadata = this.connection.getMetaData();
+      
+      ResultSet resultSet = metadata.getColumns(null, null, tableName, columnName);
+      if(resultSet.next())
+        return true;
+    }
+    catch(SQLException ex)
+    {
+      ex.printStackTrace();
+    }
+    return false;
+  }
+  
+  public boolean isTableExists(String tableName)
+  {
+    // Validate input values.
+    if(tableName==null)
+      return false;
+    if(tableName.isEmpty())
+      return false;
+    
+    // Main logic start here.
+    try
+    {
+      DatabaseMetaData metadata = this.connection.getMetaData();
+      ResultSet resultSet = metadata.getTables(null, null, tableName, null);
+      if(resultSet.next())
+      {
+        //System.out.println("Table Xuan"+resultSet.getString("TABLE_NAME"));
+        return true;
+      }
+    }
+    catch(SQLException ex)
+    {
+      ex.printStackTrace();
+    }
+    return false;
   }
   
 }
