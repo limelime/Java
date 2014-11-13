@@ -1,6 +1,8 @@
 package net.xngo.utils.test.java.db;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.assertFalse;
 
 import java.io.File;
 import java.io.IOException;
@@ -195,7 +197,118 @@ public class ConnectionTest
     
   }
   
+  @Test(description="Test isTableExists(): Correct table name.")
+  public void isTableExistsCorrectTableName()
+  {
+    /** Create default database **/
+    this.createDefaultDatabase();
+    
+    //** Main test: Check Person should exist.
+    assertTrue(this.connection.isTableExists("Person"));
+  }
   
+  @Test(description="Test isTableExists(): Incorrect table name.")
+  public void isTableExistsIncorrectTableName()
+  {
+    /** Create default database **/
+    this.createDefaultDatabase();
+    
+    //** Main test: Check Person should exist.
+    assertFalse(this.connection.isTableExists("X987432BlaBla"));
+  }
+  
+  @Test(description="Test isTableExists(): Empty table name.")
+  public void isTableExistsEmptyTableName()
+  {
+    /** Create default database **/
+    this.createDefaultDatabase();
+    
+    //** Main test: Check Person should exist.
+    assertFalse(this.connection.isTableExists(""));
+  }
+  
+  @Test(description="Test isTableExists(): Empty table name.")
+  public void isTableExistsNullTableName()
+  {
+    /** Create default database **/
+    this.createDefaultDatabase();
+    
+    //** Main test: Check Person should exist.
+    assertFalse(this.connection.isTableExists(null));
+  }  
+  
+  
+  @Test(description="Test isColumnExists(): Correct column name.")
+  public void isColumnExistsCorrectColumnName()
+  {
+    /** Create default database **/
+    this.createDefaultDatabase();
+    
+    //** Main test: Check Person should exist.
+    assertTrue(this.connection.isColumnExists("Person", "first_name"));
+  }
+  
+  @Test(description="Test isColumnExists(): Incorrect column name.")
+  public void isColumnExistsIncorrectColumnName()
+  {
+    /** Create default database **/
+    this.createDefaultDatabase();
+    
+    //** Main test: Check Person should exist.
+    assertFalse(this.connection.isColumnExists("Person", "ff32irst_name32131231"));
+  }
+  
+  @Test(description="Test isColumnExists(): Empty column name.")
+  public void isColumnExistsEmptyColumnName()
+  {
+    /** Create default database **/
+    this.createDefaultDatabase();
+    
+    //** Main test: Check Person should exist.
+    assertFalse(this.connection.isColumnExists("Person", ""));
+  }
+  
+  @Test(description="Test isColumnExists(): Null column name.")
+  public void isColumnExistsNullColumnName()
+  {
+    /** Create default database **/
+    this.createDefaultDatabase();
+    
+    //** Main test: Check Person should exist.
+    assertFalse(this.connection.isColumnExists("Person", null));
+  }
+  
+  @Test(description="Test isColumnExists(): Wrong table name.")
+  public void isColumnExistsWrongTableName()
+  {
+    /** Create default database **/
+    this.createDefaultDatabase();
+    
+    //** Main test: Check Person should exist.
+    assertFalse(this.connection.isColumnExists("P324er432son", "first_name"));
+  }
+  
+  @Test(description="Test isColumnExists(): Empty table name.")
+  public void isColumnExistsEmptyTableName()
+  {
+    /** Create default database **/
+    this.createDefaultDatabase();
+    
+    //** Main test: Check Person should exist.
+    assertFalse(this.connection.isColumnExists("", "first_name"));
+  }     
+  
+  @Test(description="Test isColumnExists(): Null table name.")
+  public void isColumnExistsNullTableName()
+  {
+    /** Create default database **/
+    this.createDefaultDatabase();
+    
+    //** Main test: Check Person should exist.
+    assertFalse(this.connection.isColumnExists(null, "first_name"));
+  }  
+  
+
   /***********************************************************************************
    *                        Test data creation helpers
    ***********************************************************************************/
