@@ -27,16 +27,27 @@ public class ConnectionMultipleTest
   @Test(description="Test multiple connection to the same database file. SQLITE can't handle multiple connection.", expectedExceptions = {SQLException.class})
   public void connectionMultipleRead() throws SQLException
   {
-
-    // Read Person table using the main connection.
-    String querySelect = "SELECT * FROM Person";
-    connection.prepareStatement(querySelect);
-    ResultSet resultSet = connection.executeQuery();
-    connection.closePreparedStatement();
+    try
+    {
+      // Read Person table using the main connection.
+      String querySelect = "SELECT * FROM Person";
+      connection.prepareStatement(querySelect);
+      ResultSet resultSet = connection.executeQuery();
+      connection.closePreparedStatement();
+      
+      // Read Person table using the second connection.
+      connection2.prepareStatement(querySelect);
+      ResultSet resultSet2 = connection2.executeQuery();
+    }
+    finally
+    {
+      this.connection.close();
+      this.connection2.close();
+      
+      // Clean up.
+      this.dbFile.delete();
+    }
     
-    // Read Person table using the second connection.
-    connection2.prepareStatement(querySelect);
-    ResultSet resultSet2 = connection2.executeQuery();    
   }
   
   
