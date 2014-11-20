@@ -32,12 +32,12 @@ public class ConnectionMultipleTest
       // Read Person table using the main connection.
       String querySelect = "SELECT * FROM Person";
       connection.prepareStatement(querySelect);
-      ResultSet resultSet = connection.executeQuery();
+      connection.executeQuery();
       connection.closePreparedStatement();
       
       // Read Person table using the second connection.
       connection2.prepareStatement(querySelect);
-      ResultSet resultSet2 = connection2.executeQuery();
+      connection2.executeQuery();
     }
     finally
     {
