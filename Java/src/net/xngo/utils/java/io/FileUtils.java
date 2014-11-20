@@ -2,11 +2,15 @@ package net.xngo.utils.java.io;
 
 import java.text.DecimalFormat;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 import java.nio.charset.Charset;
 
 import org.apache.commons.io.filefilter.TrueFileFilter;
@@ -114,4 +118,35 @@ public class FileUtils
     }
     throw new RuntimeException("Unexpected error: This code line in FileUtils.load() should never be executed.");
   }
+  
+  public static void zip(String sourcePath, String destinationPath)
+  {
+    byte[] buffer = new byte[1024];
+    
+    try
+    {
+
+      FileOutputStream fos = new FileOutputStream(destinationPath);
+      ZipOutputStream zos = new ZipOutputStream(fos);
+      ZipEntry ze= new ZipEntry(new File(sourcePath).getName()); // File path in the zip file.
+      zos.putNextEntry(ze);
+      FileInputStream in = new FileInputStream(sourcePath);
+
+      int length;
+      while ((length = in.read(buffer)) > 0)
+      {
+        zos.write(buffer, 0, length);
+      }
+
+      in.close();
+      zos.closeEntry();
+
+      zos.close();
+
+    }catch(IOException ex)
+    {
+       ex.printStackTrace();
+    }    
+  }
+  
 }
