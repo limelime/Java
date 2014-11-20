@@ -31,13 +31,16 @@ public class ConnectionTest
       /** Creating test data **/
       String expectedFirstname = "Xuan";
       String expectedLastname = "Ngo";
-      String queryInsert = String.format("INSERT INTO Person VALUES('%s', '%s')", expectedFirstname, expectedLastname);
+      String queryInsert = "INSERT INTO Person(first_name, last_name) VALUES(?, ?)";
       this.connection.prepareStatement(queryInsert);
+      this.connection.setString(1, expectedFirstname);
+      this.connection.setString(2, expectedLastname);      
       this.connection.executeUpdate();
       
-      String querySelect = String.format("SELECT first_name, last_name FROM Person WHERE first_name='%s' AND last_name='%s'",  
-                                                                                            expectedFirstname, expectedLastname);
+      String querySelect = "SELECT first_name, last_name FROM Person WHERE first_name=? AND last_name=?";
       this.connection.prepareStatement(querySelect);
+      this.connection.setString(1, expectedFirstname);
+      this.connection.setString(2, expectedLastname);      
       ResultSet resultSet = connection.executeQuery();
       
       /** Main test **/
@@ -308,6 +311,66 @@ public class ConnectionTest
     assertFalse(this.connection.isColumnExists(null, "first_name"));
   }  
   
+  @Test(description="Test addBatch() with multiple inserts.")
+  public void addBatchMultipleInserts()
+  {
+    try
+    {
+      //*** Create data
+      this.createDefaultDatabase();
+
+      //*** Main test
+      String queryInsert = "INSERT INTO Person(first_name, last_name) VALUES(?, ?)";
+      this.connection.prepareStatement(queryInsert);
+      
+      String[][] data = {
+                          {"Xuan", "Ngo"},
+                          {"John", "Smith"},
+                        };
+      for(int i=0; i<data.length; i++)
+      {
+        this.connection.setString(1, data[i][0]);
+        this.connection.setString(2, data[i][1]);
+        this.connection.addBatch();
+      }
+      this.connection.executeBatch();
+      
+
+      //*** Validation
+      String querySelect = "SELECT first_name, last_name FROM Person WHERE first_name=? AND last_name=?";
+      this.connection.prepareStatement(querySelect);
+      String expectedFirstname = data[1][0];
+      String expectedLastname = data[1][1];      
+      this.connection.setString(1, expectedFirstname);
+      this.connection.setString(2, expectedLastname);      
+      ResultSet resultSet = connection.executeQuery();
+      
+      String actualFirstname = "";
+      String actualLastname = "";
+      
+      int rows = 0;
+      while(resultSet.next())
+      {
+        int j=1;
+        actualFirstname = resultSet.getString(j++);
+        actualLastname  = resultSet.getString(j++);
+        rows++;
+      }
+      assertEquals(rows, 1, "There should be only 1 row returned.");
+      assertEquals(actualFirstname, expectedFirstname);
+      assertEquals(actualLastname, expectedLastname);
+      
+      
+      // Clean up.
+      DbUtils.close(resultSet);
+      connection.closePreparedStatement();
+      
+    }
+    catch(SQLException ex)
+    {
+      ex.printStackTrace();
+    }    
+  }
 
   /***********************************************************************************
    *                        Test data creation helpers
