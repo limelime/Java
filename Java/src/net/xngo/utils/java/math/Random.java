@@ -16,17 +16,11 @@ public class Random
    * @return Integer between min and max, inclusive.
    * @see java.util.Random#nextInt(int)
    */
-  public static int Int(int min, int max) {
-
-      // NOTE: Usually this should be a field rather than a method
-      // variable so that it is not re-seeded every call.
-      Random rand = new Random();
-
-      // nextInt is normally exclusive of the top value,
-      // so add 1 to make it inclusive
-      int randomNum = random.nextInt((max - min) + 1) + min;
-
-      return randomNum;
+  public static int Int(int min, int max)
+  {
+    // nextInt is normally exclusive of the top value,
+    // so add 1 to make it inclusive
+    return random.nextInt((max - min) + 1) + min;
   }
   
   public static int Int()
