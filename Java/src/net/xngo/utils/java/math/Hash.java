@@ -34,19 +34,19 @@ public class Hash
     int seed = 0x9747b28c;  // used to initialize the hash value, use whatever
                             // value you want, but always the same
     StreamingXXHash32 hash32 = factory.newStreamingHash32(seed);
-  
+
+    byte[] bufferBlock = new byte[8192]; // 8192 bytes
+    FileInputStream fileInputStream = null;
+    
     try
     {
-      byte[] bufferBlock = new byte[8192]; // 8192 bytes
-      FileInputStream fileInputStream = new FileInputStream(file);
-  
+      fileInputStream = new FileInputStream(file);
       int read;
       while ((read = fileInputStream.read(bufferBlock))!=-1) 
       {
         hash32.update(bufferBlock, 0, read);
       }
       
-      fileInputStream.close();
       return hash32.getValue()+""; // Force to be a string to normalize with other hashing algorithm.
 
     }
@@ -61,6 +61,17 @@ public class Hash
       rException.setStackTrace(ex.getStackTrace());
       throw rException;
       
+    }
+    finally
+    {
+      try
+      {
+        fileInputStream.close();
+      }
+      catch(IOException ex)
+      {
+        ex.printStackTrace();
+      }
     }
     
     return null;
