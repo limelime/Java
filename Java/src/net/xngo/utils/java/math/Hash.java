@@ -56,11 +56,15 @@ public class Hash
     }
     catch(IOException ex)
     {
-      // Rethrow an exception.
-      RuntimeException rException = new RuntimeException(ex.getMessage());
-      rException.setStackTrace(ex.getStackTrace());
-      throw rException;
-      
+      try
+      {
+        // Rethrow the exception.
+        throw ex;
+      }
+      catch(IOException nestedEx)
+      {
+        nestedEx.printStackTrace();
+      }
     }
     
     return null;
