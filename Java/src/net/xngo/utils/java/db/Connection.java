@@ -156,6 +156,19 @@ public class Connection
     this.preparedStatement.setObject(parameterIndex, x);    
   }
   
+  /**
+   * Adds a set of parameters to this PreparedStatement object's batch of commands.
+   * @throws SQLException
+   */
+  public void addBatch() throws SQLException
+  {
+    this.preparedStatement.addBatch();
+  }
+
+  public int[] executeBatch() throws SQLException
+  {
+    return this.preparedStatement.executeBatch();
+  }
   
   public void closePreparedStatement()
   {
