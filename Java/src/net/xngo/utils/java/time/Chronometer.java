@@ -103,10 +103,10 @@ public class Chronometer
   /************************************************************************************************************
    *                                    Superfluous functions
    ************************************************************************************************************/
-  public void display()
+  public void display(final String title)
   {
-    System.out.println("========================================================");
-    System.out.println("Chronometer periods:");
+    System.out.println("\n========================================================");
+    System.out.println(title+":");
     int i=0;
     for(; i<this.periods.size()-1; i++) // The 1st period is discard because it is the start.
     {
