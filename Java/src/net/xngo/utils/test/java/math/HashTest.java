@@ -43,10 +43,10 @@ public class HashTest
   @Test(description="Test hashing file using xxhash32.")
   public void xxhash32FilenameWrongEncoding()
   {
+    String filename = new String("./file\uFFFDname\uFFFD.txt");    
     try
     {
       //String filename = new String("./filename\uFFFD.txt".getBytes("UTF-8"));
-      String filename = new String("./filename\uFFFD.txt");
       FileWriter oFileWriter = new FileWriter(filename);
       BufferedWriter oBufferedWriter = new BufferedWriter(oFileWriter);
       oBufferedWriter.write("Java");
@@ -61,12 +61,17 @@ public class HashTest
         String hash = Hash.xxhash32(file);
         System.out.println(file.getName()+": "+hash);        
       }
-
+      
     }
     catch(IOException ex)
     {
       System.out.println(ex.getMessage());
     }
+    finally
+    {
+      new File(filename).delete();
+    }
+
   }
   
 }
