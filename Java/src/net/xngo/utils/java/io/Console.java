@@ -7,7 +7,7 @@ public class Console
   
   public void printProgress(String line)
   {
-    this.progressLine.append('\r');
+    this.progressLine.append('\r'); // Use '\r' instead of '\b'.
     this.progressLine.append(line);
     
     // If last line is longer, then mask with space.
