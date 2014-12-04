@@ -6,6 +6,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
@@ -13,6 +15,7 @@ import java.util.Set;
 import org.testng.annotations.Test;
 
 import net.xngo.utils.java.io.FileUtils;
+import net.xngo.utils.java.io.PathUtils;
 import net.xngo.utils.java.math.Hash;
 import net.xngo.utils.java.test.Helpers;
 
@@ -72,6 +75,21 @@ public class HashTest
       new File(filename).delete();
     }
 
+  }
+  
+  @Test(description="Test hashing directory using xxhash32.", expectedExceptions={RuntimeException.class})
+  public void xxhash32Directory()
+  {
+    Path dirPath = PathUtils.createTempDir("xxhash32");
+    try
+    {
+      Hash.xxhash32(dirPath);
+      
+    }
+    finally
+    {
+      PathUtils.delete(dirPath);
+    }
   }
   
 }

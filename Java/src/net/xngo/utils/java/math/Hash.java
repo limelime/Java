@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 
+import java.nio.file.Path;
+import java.nio.file.Files;
+
 import net.jpountz.xxhash.StreamingXXHash32;
 import net.jpountz.xxhash.XXHashFactory;
 
@@ -63,6 +66,15 @@ public class Hash
       rException.setStackTrace(ex.getStackTrace());
       throw rException;
     }
+    
+    return null;
+  }
+  
+  public static final Path xxhash32(Path path)
+  {
+    // Throw an exception if it is a directory.
+    if(Files.isDirectory(path))
+      throw new RuntimeException("Can't process directory: "+path.toString());
     
     return null;
   }
