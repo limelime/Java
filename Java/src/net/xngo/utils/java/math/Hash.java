@@ -29,6 +29,9 @@ public class Hash
    */
   public static final String xxhash32(File file)
   {
+    // Throw an exception if it is a directory.
+    if(file.isDirectory())
+      throw new RuntimeException("Can't process directory: "+file.getAbsolutePath());
     
     XXHashFactory factory = XXHashFactory.fastestInstance();
     int seed = 0x9747b28c;  // used to initialize the hash value, use whatever
