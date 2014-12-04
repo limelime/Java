@@ -77,6 +77,9 @@ public class HashTest
 
   }
   
+  /**************************************************************************************************************
+   *******************************************  NIO  *******************************************
+   **************************************************************************************************************/
   @Test(description="Test hashing directory using xxhash32.", expectedExceptions={RuntimeException.class})
   public void xxhash32Directory()
   {
@@ -84,12 +87,27 @@ public class HashTest
     try
     {
       Hash.xxhash32(dirPath);
-      
     }
     finally
     {
       PathUtils.delete(dirPath);
     }
+  }
+  
+  @Test(description="Test hashing file path using xxhash32.")
+  public void xxhash32Path()
+  {
+    //*** Create data.
+    Path tmpFile = PathUtils.createTempFile("xxhash32");
+    
+    //*** Main test: hash the temporary file.
+    String hash = Hash.xxhash32(tmpFile);
+    
+    //*** Validation
+    assertEquals(hash, "-1107888657", String.format("[%s] has the wrong expected hash.", tmpFile.toString()));
+    
+    //*** Clean up.
+    PathUtils.delete(tmpFile);  
   }
   
 }

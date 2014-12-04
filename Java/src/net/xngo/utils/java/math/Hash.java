@@ -2,8 +2,8 @@ package net.xngo.utils.java.math;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.IOException;
-import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 
 import java.nio.file.Path;
@@ -22,6 +22,7 @@ public class Hash
 {
 
   /**
+   * @deprecated
    * Get the hash(ID) of the file.
    * Note: -XXHash32 is chosen because it claims to be fast.
    *       -Check what is the collision rate of XXHash32 algorithm 
@@ -70,11 +71,42 @@ public class Hash
     return null;
   }
   
-  public static final Path xxhash32(Path path)
+  public static final String xxhash32(Path path)
   {
     // Throw an exception if it is a directory.
     if(Files.isDirectory(path))
       throw new RuntimeException("Can't process directory: "+path.toString());
+    
+    XXHashFactory factory = XXHashFactory.fastestInstance();
+    int seed = 0x9747b28c;  // used to initialize the hash value, use whatever
+                            // value you want, but always the same
+    StreamingXXHash32 hash32 = factory.newStreamingHash32(seed);
+  
+    try
+    {
+      byte[] bufferBlock = new byte[8192]; // 8192 bytes
+      InputStream inputStream = Files.newInputStream(path);
+  
+      int read;
+      while ((read = inputStream.read(bufferBlock))!=-1) 
+      {
+        hash32.update(bufferBlock, 0, read);
+      }
+      
+      inputStream.close();
+      return hash32.getValue()+""; // Force to be a string to normalize with other hashing algorithm.
+
+    }
+    catch(UnsupportedEncodingException ex)
+    {
+      ex.printStackTrace();
+    }
+    catch(IOException ex)
+    {
+      RuntimeException rException = new RuntimeException(ex.getMessage());
+      rException.setStackTrace(ex.getStackTrace());
+      throw rException;
+    }
     
     return null;
   }
