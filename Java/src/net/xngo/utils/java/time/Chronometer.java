@@ -12,6 +12,11 @@ import java.util.Calendar;
  */
 public class Chronometer 
 {
+  /**
+   * A period is a point in time.
+   * @author Xuan Ngo
+   *
+   */
   private class Period
   {
     private String   vname = null;
@@ -41,6 +46,7 @@ public class Chronometer
   {
     this.periods.add(new Period(name, Calendar.getInstance()));
     
+    // Update the max length of period name for display formatting.
     if(name.length() > maxPeriodNameLength)
       maxPeriodNameLength = name.length();
   }
@@ -59,16 +65,30 @@ public class Chronometer
     return this.periods.size();
   }  
   
+  /**
+   * 
+   * @return Start time as "yyyy-MM-dd HH:mm:ss.SSS".
+   */
   public String getStartTime()
   {
     return this.getDateTimeFormatted(this.periods.get(0).time());
   }
+  
+  /**
+   * 
+   * @return End time as "yyyy-MM-dd HH:mm:ss.SSS".
+   */
   public String getEndTime()
   {
     return this.getDateTimeFormatted(this.periods.get(this.periods.size()-1).time());
   }
 
-  
+  /**
+   * 
+   * @param fromStopA
+   * @param toStopB
+   * @return Elapsed time between 2 stops in milliseconds.
+   */
   public long getRuntime(int fromStopA, int toStopB)
   {
     if(fromStopA<0) throw new RuntimeException(String.format("%d can't be less than 1.", fromStopA));
