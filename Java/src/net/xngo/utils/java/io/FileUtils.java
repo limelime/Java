@@ -16,7 +16,6 @@ import java.nio.charset.Charset;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 
 /**
- * @deprecated Use PathUtils
  * @author Xuan Ngo
  *
  */
