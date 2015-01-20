@@ -6,6 +6,7 @@ import java.util.Calendar;
 
 /**
  * Measure time elapsed.
+ * It is accurate up to millisecond.
  * @author Xuan Ngo
  *
  */
@@ -116,7 +117,7 @@ public class Chronometer
   }
   
   /**
-   * @return Return the elapsed time measured as HH:MM:SS.mmmm.
+   * @return Return the elapsed time measured as HH:MM:SS.mmm.
    */
   public final String formatTime(long millis)
   {
@@ -132,12 +133,12 @@ public class Chronometer
     long lRuntimeSec = lRuntime/(1000);
     lRuntime         = lRuntime - (lRuntimeSec*1000);     // Runtime remaining.
  
-    return String.format("%02d:%02d:%02d.%d", lRuntimeHrs, lRuntimeMin, lRuntimeSec, lRuntime);
+    return String.format("%02d:%02d:%02d.%03d", lRuntimeHrs, lRuntimeMin, lRuntimeSec, lRuntime);
   }
   
   private final String getDateTimeFormatted(Calendar cal)
   {
-    final String dateFormat = "yyyy-MM-dd HH:mm:ss.SSSS";
+    final String dateFormat = "yyyy-MM-dd HH:mm:ss.SSS";
     return CalUtils.toString(cal, dateFormat);
   }
 }
