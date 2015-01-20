@@ -9,7 +9,6 @@ import java.util.Calendar;
 import org.testng.annotations.Test;
 
 import net.xngo.utils.java.time.Chronometer;
-import net.xngo.utils.java.time.ElapsedTime;
 
 public class ChronometerTest
 {

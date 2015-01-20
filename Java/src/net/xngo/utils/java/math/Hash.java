@@ -3,6 +3,7 @@ package net.xngo.utils.java.math;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
@@ -46,6 +47,86 @@ public class Hash
     {
       byte[] bufferBlock = new byte[8192]; // 8192 bytes
       FileInputStream fileInputStream = new FileInputStream(file);
+  
+      int read;
+      while ((read = fileInputStream.read(bufferBlock))!=-1) 
+      {
+        hash32.update(bufferBlock, 0, read);
+      }
+      
+      fileInputStream.close();
+      return hash32.getValue()+""; // Force to be a string to normalize with other hashing algorithm.
+
+    }
+    catch(UnsupportedEncodingException ex)
+    {
+      ex.printStackTrace();
+    }
+    catch(IOException ex)
+    {
+      RuntimeException rException = new RuntimeException(ex.getMessage());
+      rException.setStackTrace(ex.getStackTrace());
+      throw rException;
+    }
+    
+    return null;
+  }
+  
+  public static final String xxhash32SuperClass(File file)
+  {
+    // Throw an exception if it is a directory.
+    if(file.isDirectory())
+      throw new RuntimeException("Can't process directory: "+file.getAbsolutePath());
+    
+    XXHashFactory factory = XXHashFactory.fastestInstance();
+    int seed = 0x9747b28c;  // used to initialize the hash value, use whatever
+                            // value you want, but always the same
+    StreamingXXHash32 hash32 = factory.newStreamingHash32(seed);
+  
+    try
+    {
+      byte[] bufferBlock = new byte[8192]; // 8192 bytes
+      InputStream fileInputStream = new FileInputStream(file);
+  
+      int read;
+      while ((read = fileInputStream.read(bufferBlock))!=-1) 
+      {
+        hash32.update(bufferBlock, 0, read);
+      }
+      
+      fileInputStream.close();
+      return hash32.getValue()+""; // Force to be a string to normalize with other hashing algorithm.
+
+    }
+    catch(UnsupportedEncodingException ex)
+    {
+      ex.printStackTrace();
+    }
+    catch(IOException ex)
+    {
+      RuntimeException rException = new RuntimeException(ex.getMessage());
+      rException.setStackTrace(ex.getStackTrace());
+      throw rException;
+    }
+    
+    return null;
+  }
+  
+  public static final String xxhash32Buffer(File file)
+  {
+    // Throw an exception if it is a directory.
+    if(file.isDirectory())
+      throw new RuntimeException("Can't process directory: "+file.getAbsolutePath());
+    
+    XXHashFactory factory = XXHashFactory.fastestInstance();
+    int seed = 0x9747b28c;  // used to initialize the hash value, use whatever
+                            // value you want, but always the same
+    StreamingXXHash32 hash32 = factory.newStreamingHash32(seed);
+  
+    try
+    {
+      byte[] bufferBlock = new byte[8192]; // 8192 bytes
+      BufferedInputStream fileInputStream = new BufferedInputStream(new FileInputStream(file));
   
       int read;
       while ((read = fileInputStream.read(bufferBlock))!=-1) 
