@@ -101,20 +101,6 @@ public class Chronometer
   {
     return this.maxPeriodNameLength;
   }
-  /************************************************************************************************************
-   *                                    Superfluous functions
-   ************************************************************************************************************/
-  public void display(final String title)
-  {
-    System.out.println("\n========================================================");
-    System.out.println(title+":");
-    int i=0;
-    for(; i<this.periods.size()-1; i++) // The 1st period is discard because it is the start.
-    {
-      System.out.println(String.format("\t[%02d] %"+this.getMaxPeriodNameLength()+"s = %s", i+1, this.getRuntimeName(i, i+1), this.getRuntimeString(i, i+1)));
-    }
-    System.out.println(String.format("\t[%02d] %"+this.getMaxPeriodNameLength()+"s = %s", i+1, "[Total]", this.getTotalRuntimeString()));
-  }
   
   /**
    * @return Return the elapsed time measured as HH:MM:SS.mmm.
@@ -141,5 +127,22 @@ public class Chronometer
     final String dateFormat = "yyyy-MM-dd HH:mm:ss.SSS";
     return CalUtils.toString(cal, dateFormat);
   }
+  
+  /************************************************************************************************************
+   *                                    Superfluous functions
+   ************************************************************************************************************/
+  public void display(final String title)
+  {
+    System.out.println("\n========================================================");
+    System.out.println(title+":");
+    int i=0;
+    for(; i<this.periods.size()-1; i++) // The 1st period is discard because it is the start.
+    {
+      System.out.println(String.format("\t[%02d] %"+this.getMaxPeriodNameLength()+"s = %s", i+1, this.getRuntimeName(i, i+1), this.getRuntimeString(i, i+1)));
+    }
+    System.out.println(String.format("\t[%02d] %"+this.getMaxPeriodNameLength()+"s = %s", i+1, "[Total]", this.getTotalRuntimeString()));
+  }
+  
+
 }
 
