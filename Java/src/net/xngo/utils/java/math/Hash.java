@@ -23,7 +23,6 @@ public class Hash
 {
 
   /**
-   * @deprecated
    * Get the hash(ID) of the file.
    * Note: -XXHash32 is chosen because it claims to be fast.
    *       -Check what is the collision rate of XXHash32 algorithm 
