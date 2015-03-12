@@ -43,7 +43,7 @@ public class HashTest
   }
   
   
-  @Test(description="Test hashing file using xxhash32.")
+  @Test(description="Test hashing filename with wrong encoding.")
   public void xxhash32FilenameWrongEncoding()
   {
     String filename = new String("./file\uFFFDname\uFFFD.txt");    
