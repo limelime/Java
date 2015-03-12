@@ -46,7 +46,7 @@ public class HashTest
   @Test(description="Test hashing filename with wrong encoding.")
   public void xxhash32FilenameWrongEncoding()
   {
-    String filename = new String("./file\uFFFDname\uFFFD.txt");    
+    String filename = new String("./xxhash32FilenameWrongEncoding_file\uFFFDname\uFFFD.txt");    
     try
     {
       //String filename = new String("./filename\uFFFD.txt".getBytes("UTF-8"));
