@@ -35,7 +35,11 @@ public class HashTest
     file.delete();
   }
   
-  @Test(description="Test hashing file not found.", expectedExceptions={RuntimeException.class})
+  /*************************************************************************************************
+   *                                Test error handling.
+   *************************************************************************************************/
+  
+  @Test(description="Test error handling: file not found.", expectedExceptions={RuntimeException.class})
   public void xxhash32FileNotFound()
   {
     File file = new File("./xxhash32FileNotFound.txt");
@@ -43,7 +47,7 @@ public class HashTest
   }
   
   
-  @Test(description="Test hashing filename with wrong encoding.")
+  @Test(description="Test error handling: filename with wrong encoding.")
   public void xxhash32FilenameWrongEncoding()
   {
     String filename = new String("./xxhash32FilenameWrongEncoding_file\uFFFDname\uFFFD.txt");    
