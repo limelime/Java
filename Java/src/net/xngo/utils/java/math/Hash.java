@@ -21,7 +21,6 @@ import net.jpountz.xxhash.XXHashFactory;
  */
 public class Hash
 {
-
   /**
    * Get the hash(ID) of the file.
    * Note: -XXHash32 is chosen because it claims to be fast.
@@ -29,7 +28,7 @@ public class Hash
    *              because StreamingXXHash32.getValue() return an integer, 
    *              which has a limit of 2,147,483,648.
    * @param file
-   * @return      the hash as string
+   * @return NULL if hash failed. Otherwise, the hash string.
    */
   public static final String xxhash32(File file)
   {
@@ -39,7 +38,7 @@ public class Hash
     
     XXHashFactory factory = XXHashFactory.fastestInstance();
     int seed = 0x9747b28c;  // used to initialize the hash value, use whatever
-                            // value you want, but always the same
+                            // value you want, but always the same.
     StreamingXXHash32 hash32 = factory.newStreamingHash32(seed);
   
     try
@@ -68,7 +67,65 @@ public class Hash
       throw rException;
     }
     
-    return null;
+    return null; // hash failed
+  }
+  /**
+   * Hash the beginning, the middle and the end of the file.
+   * @param file
+   * @param bufferSize Buffer size in bytes.
+   * @return NULL if hash failed. Otherwise, the hash string.
+   */
+  public static final String xxhash32Spread(File file, int bufferSize)
+  {
+    // Throw an exception if it is a directory.
+    if (file.isDirectory())
+      throw new RuntimeException("Can't process directory: " + file.getAbsolutePath());
+
+    XXHashFactory factory = XXHashFactory.fastestInstance();
+    int seed = 0x9747b28c; // used to initialize the hash value, use whatever
+                           // value you want, but always the same.
+    StreamingXXHash32 hash32 = factory.newStreamingHash32(seed);
+
+    try
+    {
+      byte[] bufferBlock = new byte[bufferSize];
+      FileInputStream fileInputStream = new FileInputStream(file);
+
+      int totalLength = fileInputStream.available();
+      int read;
+      
+      //*** Hash the beginning of stream.
+      read = fileInputStream.read(bufferBlock);
+      hash32.update(bufferBlock, 0, read);
+
+      //*** Hash the middle of stream.
+      int skipToMiddle = (totalLength / 2) - (bufferSize / 2) - bufferSize;
+      fileInputStream.skip(skipToMiddle);
+      read = fileInputStream.read(bufferBlock);
+      hash32.update(bufferBlock, 0, read);      
+
+      //*** Hash the end of stream.
+      int skipToEnd = totalLength - bufferSize - skipToMiddle - bufferSize - bufferSize;
+      fileInputStream.skip(skipToEnd);
+      read = fileInputStream.read(bufferBlock);
+      hash32.update(bufferBlock, 0, read);
+
+      fileInputStream.close();
+      return hash32.getValue() + ""; // Force to be a string to normalize with other hashing algorithm.
+
+    }
+    catch (UnsupportedEncodingException ex)
+    {
+      ex.printStackTrace();
+    }
+    catch (IOException ex)
+    {
+      RuntimeException rException = new RuntimeException(ex.getMessage());
+      rException.setStackTrace(ex.getStackTrace());
+      throw rException;
+    }
+
+    return null; // hash failed
   }
   
   public static final String xxhash32SuperClass(File file)
