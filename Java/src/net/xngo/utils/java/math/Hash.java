@@ -81,6 +81,10 @@ public class Hash
     if (file.isDirectory())
       throw new RuntimeException("Can't process directory: " + file.getAbsolutePath());
 
+    // Throw an exception if bufferSize is less than 1.
+    if(bufferSize<1)
+      throw new RuntimeException("Buffer size parameter can't be less than 1.");
+    
     XXHashFactory factory = XXHashFactory.fastestInstance();
     int seed = 0x9747b28c; // used to initialize the hash value, use whatever
                            // value you want, but always the same.
@@ -92,7 +96,14 @@ public class Hash
       FileInputStream fileInputStream = new FileInputStream(file);
 
       int totalLength = fileInputStream.available();
-      int read;
+      int read=0;
+      
+      // Check if it can hash 3 buffer size of the stream.
+      if(totalLength<(3*bufferSize))
+      {
+        fileInputStream.close();
+        throw new RuntimeException(String.format("Filesize(%d) has to be at least 3 times the buffer size(3*%d=%d).", file.length(), bufferSize, (3*bufferSize)));
+      }
       
       //*** Hash the beginning of stream.
       read = fileInputStream.read(bufferBlock);
