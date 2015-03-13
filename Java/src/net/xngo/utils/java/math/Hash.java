@@ -70,6 +70,8 @@ public class Hash
     return null; // hash failed
   }
   /**
+   * @deprecated Don't use this. It is not reliable to uniquely ID a file.
+   *              This might be good to be used in conjunction with other logic.
    * Hash the beginning, the middle and the end of the file.
    * @param file
    * @param bufferSize Buffer size in bytes.
@@ -108,19 +110,25 @@ public class Hash
       //*** Hash the beginning of stream.
       read = fileInputStream.read(bufferBlock);
       hash32.update(bufferBlock, 0, read);
-
+System.out.println(String.format("Beginning: read %d",read));
       //*** Hash the middle of stream.
       int skipToMiddle = (totalLength / 2) - (bufferSize / 2) - bufferSize;
       fileInputStream.skip(skipToMiddle);
       read = fileInputStream.read(bufferBlock);
       hash32.update(bufferBlock, 0, read);      
-
+System.out.println(String.format("Middle: skip %d, read %d", skipToMiddle, read));
       //*** Hash the end of stream.
       int skipToEnd = totalLength - bufferSize - skipToMiddle - bufferSize - bufferSize;
       fileInputStream.skip(skipToEnd);
       read = fileInputStream.read(bufferBlock);
       hash32.update(bufferBlock, 0, read);
+System.out.println(String.format("End: skip %d, read %d", skipToEnd, read));
 
+/*
+byte[] totalLengthByte = (totalLength+"").getBytes();
+System.out.println("Add "+totalLength);
+hash32.update(totalLengthByte, 0, totalLengthByte.length); // Checking hash at 3 spots is not enough. This step is needed.
+*/
       fileInputStream.close();
       return hash32.getValue() + ""; // Force to be a string to normalize with other hashing algorithm.
 
