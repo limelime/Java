@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
 
 import org.apache.commons.io.filefilter.TrueFileFilter;
 
@@ -72,38 +73,43 @@ public class FileUtils
     
     for(File path: paths)
     {
-      if(path.exists())
+      if(!Files.isSymbolicLink(path.toPath())) // Discard symbolic link.
       {
-        try
+        if(path.exists())
         {
-          File canonicalFilePath = path.getCanonicalFile(); // Get all input files/directories paths as canonical to ensure that there will be no duplicate.
-          if(canonicalFilePath.isFile())
+          try
           {
-            listOfAllUniqueFiles.add(canonicalFilePath);
+            File canonicalFilePath = path.getCanonicalFile(); // Get all input files/directories paths as canonical to ensure that there will be no duplicate.
+            if(canonicalFilePath.isFile())
+            {
+              listOfAllUniqueFiles.add(canonicalFilePath);
+            }
+            else
+            {// It is a directory.
+              Collection<File> filesList = org.apache.commons.io.FileUtils.listFiles(canonicalFilePath, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE);
+              listOfAllUniqueFiles.addAll(filesList);
+            }
           }
-          else
-          {// It is a directory.
-            Collection<File> filesList = org.apache.commons.io.FileUtils.listFiles(canonicalFilePath, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE);
-            listOfAllUniqueFiles.addAll(filesList);
+          catch(IOException e)
+          {
+            e.printStackTrace();
           }
+          
         }
-        catch(IOException e)
+        else
         {
-          e.printStackTrace();
+          try
+          {
+            System.out.println(String.format("[Warning] -> [%s] doesn't exist.", path.getCanonicalPath()));
+          }
+          catch(IOException ex)
+          {
+            ex.printStackTrace();
+          }
         }
-        
       }
       else
-      {
-        try
-        {
-          System.out.println(String.format("[Warning] -> [%s] doesn't exist.", path.getCanonicalPath()));
-        }
-        catch(IOException ex)
-        {
-          ex.printStackTrace();
-        }
-      }
+        System.out.println("Symbolic link. Xuan");
     }
     
     return listOfAllUniqueFiles;
