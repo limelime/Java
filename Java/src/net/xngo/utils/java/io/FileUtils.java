@@ -13,6 +13,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.io.FileFilter;
 
 import org.apache.commons.io.filefilter.TrueFileFilter;
 
@@ -86,7 +87,21 @@ public class FileUtils
             }
             else
             {// It is a directory.
-              Collection<File> filesList = org.apache.commons.io.FileUtils.listFiles(canonicalFilePath, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE);
+              
+              //Create a FileFilter and override its accept-method to discard symbolic link.
+              TrueFileFilter trueFileFilterNoSymbolicLink = new TrueFileFilter() {
+                  @Override
+                  public boolean accept(File file)
+                  {
+                    if(Files.isSymbolicLink(file.toPath()))
+                      return false;
+                    else
+                      return true;
+                  }
+                
+              };              
+              
+              Collection<File> filesList = org.apache.commons.io.FileUtils.listFiles(canonicalFilePath, trueFileFilterNoSymbolicLink, trueFileFilterNoSymbolicLink);
               listOfAllUniqueFiles.addAll(filesList);
             }
           }
