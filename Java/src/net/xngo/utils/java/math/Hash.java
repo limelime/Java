@@ -43,6 +43,7 @@ public class Hash
     
     // Optimization: Reduce the number of reads.
     //  8KB < bufferSize < 5MB
+    // TODO: Use multiple of 4KB or 8KB
     int bufferSize = file.length()/100; 
     if(bufferSize>5242880) // 5242880 bytes = 5MB
       bufferSize=5242880;
