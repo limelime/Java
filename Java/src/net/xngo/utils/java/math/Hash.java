@@ -40,10 +40,18 @@ public class Hash
     int seed = 0x9747b28c;  // used to initialize the hash value, use whatever
                             // value you want, but always the same.
     StreamingXXHash32 hash32 = factory.newStreamingHash32(seed);
-  
+    
+    // Optimization: Reduce the number of reads.
+    //  8KB < bufferSize < 5MB
+    int bufferSize = file.length()/100; 
+    if(bufferSize>5242880) // 5242880 bytes = 5MB
+      bufferSize=5242880;
+    else if(bufferSize<8192) // 8192 bytes = 8 KB
+      bufferSize=8192;
+      
     try
     {
-      byte[] bufferBlock = new byte[8192]; // 8192 bytes
+      byte[] bufferBlock = new byte[bufferSize];
       FileInputStream fileInputStream = new FileInputStream(file);
   
       int read;
