@@ -32,15 +32,6 @@ public class Hash
    */
   public static final String xxhash32(File file)
   {
-    // Throw an exception if it is a directory.
-    if(file.isDirectory())
-      throw new RuntimeException("Can't process directory: "+file.getAbsolutePath());
-    
-    XXHashFactory factory = XXHashFactory.fastestInstance();
-    int seed = 0x9747b28c;  // used to initialize the hash value, use whatever
-                            // value you want, but always the same.
-    StreamingXXHash32 hash32 = factory.newStreamingHash32(seed);
-    
     // Optimization: Reduce the number of reads.
     //  8KB < bufferSize < 5MB
     // TODO: Use multiple of 4KB or 8KB
@@ -50,6 +41,20 @@ public class Hash
     else if(bufferSize<8192) // 8192 bytes = 8 KB
       bufferSize=8192;
       
+    return xxhash32(file, bufferSize);
+  }
+  
+  public static final String xxhash32(File file, int bufferSize)
+  {
+    // Throw an exception if it is a directory.
+    if(file.isDirectory())
+      throw new RuntimeException("Can't process directory: "+file.getAbsolutePath());
+    
+    XXHashFactory factory = XXHashFactory.fastestInstance();
+    int seed = 0x9747b28c;  // used to initialize the hash value, use whatever
+                            // value you want, but always the same.
+    StreamingXXHash32 hash32 = factory.newStreamingHash32(seed);
+    
     try
     {
       byte[] bufferBlock = new byte[bufferSize];
@@ -78,6 +83,7 @@ public class Hash
     
     return null; // hash failed
   }
+  
   /**
    * @deprecated Don't use this. It is not reliable to uniquely ID a file.
    *              This might be good to be used in conjunction with other logic.
