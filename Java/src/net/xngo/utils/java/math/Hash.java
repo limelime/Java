@@ -32,16 +32,9 @@ public class Hash
    */
   public static final String xxhash32(File file)
   {
-    // Optimization: Reduce the number of reads.
-    //  8KB < bufferSize < 5MB
-    // TODO: Use multiple of 4KB or 8KB
-    int bufferSize = (int)file.length()/100; 
-    if(bufferSize>5242880) // 5242880 bytes = 5MB
-      bufferSize=5242880;
-    else if(bufferSize<8192) // 8192 bytes = 8 KB
-      bufferSize=8192;
-      
-    return xxhash32(file, bufferSize);
+    // Buffer size = 8192 bytes = 8 KB is optimal.
+    //  Device block size is optimal.
+    return xxhash32(file, 8192); 
   }
   
   public static final String xxhash32(File file, int bufferSize)
