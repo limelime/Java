@@ -6,9 +6,12 @@ import java.io.InputStream;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.io.FileNotFoundException;
 
 import java.nio.file.Path;
 import java.nio.file.Files;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import net.jpountz.xxhash.StreamingXXHash32;
 import net.jpountz.xxhash.XXHashFactory;
@@ -21,6 +24,10 @@ import net.jpountz.xxhash.XXHashFactory;
  */
 public class Hash
 {
+  // Buffer size = 8192 bytes = 8 KB is optimal.
+  // Device block size is optimal.
+  final static int BUFFER_SIZE = 8192; 
+  
   /**
    * Get the hash(ID) of the file.
    * Note: -XXHash32 is chosen because it claims to be fast.
@@ -32,9 +39,7 @@ public class Hash
    */
   public static final String xxhash32(File file)
   {
-    // Buffer size = 8192 bytes = 8 KB is optimal.
-    //  Device block size is optimal.
-    return xxhash32(file, 8192); 
+    return xxhash32(file, BUFFER_SIZE); 
   }
   
   public static final String xxhash32(File file, int bufferSize)
@@ -136,6 +141,7 @@ System.out.println(String.format("End: skip %d, read %d", skipToEnd, read));
 byte[] totalLengthByte = (totalLength+"").getBytes();
 System.out.println("Add "+totalLength);
 hash32.update(totalLengthByte, 0, totalLengthByte.length); // Checking hash at 3 spots is not enough. This step is needed.
+
 */
       fileInputStream.close();
       return hash32.getValue() + ""; // Force to be a string to normalize with other hashing algorithm.
@@ -275,14 +281,58 @@ hash32.update(totalLengthByte, 0, totalLengthByte.length); // Checking hash at 3
     return null;
   }
   
+  public static final String md5(File file)
+  {
+    return md5(file, BUFFER_SIZE);
+  }
+  
   /**
-   * @deprecated Not implemented yet.
+   * See http://www.asjava.com/core-java/java-md5-example/
+   * http://www.mkyong.com/java/java-md5-hashing-example/
+   * 
    * @param file
    * @return
    */
-  public String md5(File file)
+  public static final String md5(File file, int bufferSize)
   {
-    // See http://www.asjava.com/core-java/java-md5-example/
-    return null;
+    try
+    {
+      MessageDigest md = MessageDigest.getInstance("MD5");
+      FileInputStream fis = new FileInputStream(file);
+
+      byte[] dataBytes = new byte[bufferSize];
+
+      int nread = 0;
+      while ((nread = fis.read(dataBytes)) != -1)
+      {
+        md.update(dataBytes, 0, nread);
+      }
+      
+      byte[] mdbytes = md.digest();
+
+      // convert the byte to hex format method 1
+      StringBuffer hexString = new StringBuffer();
+      for (int i = 0; i < mdbytes.length; i++)
+      {
+        hexString.append(Integer.toString((mdbytes[i] & 0xff) + 0x100, 16).substring(1));
+      }
+      
+      fis.close();
+      return hexString.toString();
+    }
+    catch(NoSuchAlgorithmException ex)
+    {
+      ex.printStackTrace();
+    }
+    catch(FileNotFoundException ex)
+    {
+      ex.printStackTrace();
+    }
+    catch(IOException ex)
+    {
+      ex.printStackTrace();
+    }
+
+    return null; // hash failed
   }
 }
