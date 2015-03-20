@@ -326,7 +326,9 @@ hash32.update(totalLengthByte, 0, totalLengthByte.length); // Checking hash at 3
     }
     catch(FileNotFoundException ex)
     {
-      ex.printStackTrace();
+      RuntimeException rException = new RuntimeException(ex.getMessage());
+      rException.setStackTrace(ex.getStackTrace());
+      throw rException;
     }
     catch(IOException ex)
     {
