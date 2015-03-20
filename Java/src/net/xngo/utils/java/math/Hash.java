@@ -16,6 +16,8 @@ import java.security.NoSuchAlgorithmException;
 import net.jpountz.xxhash.StreamingXXHash32;
 import net.jpountz.xxhash.XXHashFactory;
 
+
+
 /**
  * Hold all different hashing algorithms.
  * All methods should return their value as string.
@@ -337,4 +339,5 @@ hash32.update(totalLengthByte, 0, totalLengthByte.length); // Checking hash at 3
 
     return null; // hash failed
   }
+
 }
