@@ -21,6 +21,9 @@ import net.jpountz.xxhash.XXHashFactory;
 /**
  * Hold all different hashing algorithms.
  * All methods should return their value as string.
+ * 
+ * http://en.wikipedia.org/wiki/List_of_hash_functions#Cryptographic_hash_functions
+ * 
  * @author Xuan Ngo
  *
  */
