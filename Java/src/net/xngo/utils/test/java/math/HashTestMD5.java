@@ -39,18 +39,18 @@ public class HashTestMD5
    *                                Test error handling.
    *************************************************************************************************/
   
-  @Test(description="Test error handling: file not found.", expectedExceptions={RuntimeException.class})
-  public void xxhash32FileNotFound()
+  @Test(description="Test error handling: file not found.", expectedExceptions={RuntimeException.class}, expectedExceptionsMessageRegExp=".*No such file or directory.*")
+  public void md5FileNotFound()
   {
-    File file = new File("./xxhash32FileNotFound.txt");
-    Hash.xxhash32(file);
+    File file = new File("./md5FileNotFound.txt");
+    Hash.md5(file);
   }
   
   
   @Test(description="Test error handling: filename with wrong encoding.")
-  public void xxhash32FilenameWrongEncoding()
+  public void md5FilenameWrongEncoding()
   {
-    String filename = new String("./xxhash32FilenameWrongEncoding_file\uFFFDname\uFFFD.txt");    
+    String filename = new String("./md5FilenameWrongEncoding_file\uFFFDname\uFFFD.txt");    
     try
     {
       //String filename = new String("./filename\uFFFD.txt".getBytes("UTF-8"));
@@ -58,14 +58,13 @@ public class HashTestMD5
       BufferedWriter oBufferedWriter = new BufferedWriter(oFileWriter);
       oBufferedWriter.write("Java");
       oBufferedWriter.close();
-      System.out.println("done.");
       
       List<File> files = new ArrayList<File>();
       files.add(new File(filename));
       Set<File> listOfFiles = FileUtils.listFiles(files);
       for (File file : listOfFiles) 
       {
-        String hash = Hash.xxhash32(file);
+        String hash = Hash.md5(file);
         System.out.println(file.getName()+": "+hash);        
       }
       
@@ -81,37 +80,5 @@ public class HashTestMD5
 
   }
   
-  /**************************************************************************************************************
-   *******************************************  NIO  *******************************************
-   **************************************************************************************************************/
-  @Test(description="Test hashing directory using xxhash32.", expectedExceptions={RuntimeException.class})
-  public void xxhash32Directory()
-  {
-    Path dirPath = PathUtils.createTempDir("xxhash32");
-    try
-    {
-      Hash.xxhash32(dirPath);
-    }
-    finally
-    {
-      PathUtils.delete(dirPath);
-    }
-  }
-  
-  @Test(description="Test hashing file path using xxhash32.")
-  public void xxhash32Path()
-  {
-    //*** Create data.
-    Path tmpFile = PathUtils.createTempFile("xxhash32");
-    
-    //*** Main test: hash the temporary file.
-    String hash = Hash.xxhash32(tmpFile);
-    
-    //*** Validation
-    assertEquals(hash, "-1107888657", String.format("[%s] has the wrong expected hash.", tmpFile.toString()));
-    
-    //*** Clean up.
-    PathUtils.delete(tmpFile);  
-  }
   
 }
