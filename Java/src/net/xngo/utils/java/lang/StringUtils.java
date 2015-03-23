@@ -20,6 +20,10 @@ public class StringUtils
     return wordsFound;
   }
   
+  /**
+   * @param str
+   * @return True if string contains hexadecimal characters. Otherwise, false.
+   */
   public static boolean isHex(String str)
   {
     boolean isHex; 
