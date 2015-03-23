@@ -19,4 +19,20 @@ public class StringUtils
     
     return wordsFound;
   }
+  
+  public static boolean isHex(String str)
+  {
+    boolean isHex; 
+    for(int i=0; i<str.length(); i++)
+    {
+      char c = str.charAt(i);
+      isHex = ((c >= '0' && c <= '9') || 
+               (c >= 'a' && c <= 'f') || 
+               (c >= 'A' && c <= 'F'));
+
+      if(!isHex)
+          return false;
+    }
+    return true;    
+  }
 }
