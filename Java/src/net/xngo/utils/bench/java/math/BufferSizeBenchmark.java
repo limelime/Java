@@ -13,7 +13,7 @@ public class BufferSizeBenchmark
     int bufferSize = Integer.parseInt(args[1]);
     
     long start = System.currentTimeMillis();
-    String hash = Hash.xxhash32(file, bufferSize);
+    String hash = Hash.md5(file, bufferSize);
     long end = System.currentTimeMillis();
     long runtime = end-start;
 
