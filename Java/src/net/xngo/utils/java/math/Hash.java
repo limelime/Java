@@ -13,11 +13,6 @@ import java.nio.file.Files;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import net.jpountz.xxhash.StreamingXXHash32;
-import net.jpountz.xxhash.XXHashFactory;
-
-
-
 /**
  * Hold all different hashing algorithms.
  * All methods should return their value as string.
