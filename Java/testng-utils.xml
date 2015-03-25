@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="Utils test suite">
+  
+  <test verbose="1" name="Utils tests: Once">
+	  <packages>
+	    <package name="net.xngo.utils.test.*" />
+	  </packages>
+  </test>
+  
+  <test verbose="1" name="Utils tests: Twice">
+		<packages>
+		  <package name="net.xngo.utils.test.*" />
+		</packages>
+  </test>
+  
+  <test verbose="1" name="Utils tests: Thrice">
+    <packages>
+      <package name="net.xngo.utils.test.*" />
+    </packages>
+  </test>  
+  
+</suite>
