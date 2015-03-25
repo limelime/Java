@@ -29,6 +29,7 @@ import net.jpountz.xxhash.XXHashFactory;
  */
 public class Hash
 {
+  
   // Buffer size = 8192 bytes = 8 KB is optimal.
   // Device block size is optimal.
   final static int BUFFER_SIZE = 8192; 
@@ -346,4 +347,83 @@ hash32.update(totalLengthByte, 0, totalLengthByte.length); // Checking hash at 3
     return null; // hash failed
   }
 
+  public static final String md5FingerPrint(File file, int checkFrequency)
+  {
+    return md5FingerPrint(file, checkFrequency, BUFFER_SIZE);
+  }
+  
+  public static final String md5FingerPrint(File file, int checkFrequency, int bufferSize)
+  {
+    try
+    {
+      MessageDigest md = MessageDigest.getInstance("MD5");
+      FileInputStream fis = new FileInputStream(file);
+
+      byte[] dataBytes = new byte[bufferSize];
+      int fileSize = fis.available();
+      int sliceSize = fileSize/checkFrequency;
+      int skipSize = sliceSize-bufferSize;
+      
+      // Error handling.
+//      if(sliceSize<(bufferSize*2))
+//      {
+//        fis.close();
+//        throw new RuntimeException(String.format("sliceSize(%d) has to be 2 times bigger than bufferSize(%d).", sliceSize, bufferSize));
+//      }
+      
+//      System.out.println(String.format("%s: Total size=%,d ", file.getAbsolutePath(), fileSize));      
+      int pos = 0;
+      int nread = 0;
+      for(int i=0; i<checkFrequency-1; i++)
+      {
+        // Read buffer.
+        nread = fis.read(dataBytes);
+        md.update(dataBytes, 0, nread);
+//        System.out.println(String.format("Pos=%d, Read %d ", pos, bufferSize));
+        pos+=bufferSize;
+        
+        // Skip X bytes.
+        pos+=skipSize;
+        fis.skip(skipSize);
+//        System.out.println(String.format("\t Skip %d bytes, pos=%d", skipSize, pos));
+      }
+      // Read the buffer stream from the end of the file. This is where it is likely to change.
+      skipSize = (fileSize-bufferSize)-pos;
+      pos+=skipSize;
+      if(skipSize>0)
+        fis.skip(skipSize);
+      
+      nread = fis.read(dataBytes);
+      md.update(dataBytes, 0, nread);
+//      System.out.println(String.format("Pos=%d, Read %d ", pos, bufferSize));
+      
+
+      // Convert the byte to hex format method 1
+      byte[] mdbytes = md.digest();
+      StringBuffer hexString = new StringBuffer();
+      for (int i = 0; i < mdbytes.length; i++)
+      {
+        hexString.append(Integer.toString((mdbytes[i] & 0xff) + 0x100, 16).substring(1));
+      }
+      
+      fis.close();
+      return hexString.toString();
+    }
+    catch(NoSuchAlgorithmException ex)
+    {
+      ex.printStackTrace();
+    }
+    catch(FileNotFoundException ex)
+    {
+      RuntimeException rException = new RuntimeException(ex.getMessage());
+      rException.setStackTrace(ex.getStackTrace());
+      throw rException;
+    }
+    catch(IOException ex)
+    {
+      ex.printStackTrace();
+    }
+
+    return null; // hash failed
+  }
 }
