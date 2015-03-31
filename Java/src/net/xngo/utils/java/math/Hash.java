@@ -30,9 +30,6 @@ public class Hash
   final static int BUFFER_SIZE = 8192; 
   
  
-  
-
-  
   public static final String md5(File file)
   {
     return md5(file, BUFFER_SIZE);
@@ -73,18 +70,14 @@ public class Hash
       return hexString.toString();
     }
     catch(NoSuchAlgorithmException ex)
-    {
+    {// Stop.
       ex.printStackTrace();
     }
-    catch(FileNotFoundException ex)
-    {
+    catch(Exception ex)
+    {// Rethrow exception.
       RuntimeException rException = new RuntimeException(ex.getMessage());
       rException.setStackTrace(ex.getStackTrace());
       throw rException;
-    }
-    catch(IOException ex)
-    {
-      ex.printStackTrace();
     }
 
     return null; // hash failed
@@ -153,18 +146,14 @@ public class Hash
       return hexString.toString();
     }
     catch(NoSuchAlgorithmException ex)
-    {
+    {// Stop.
       ex.printStackTrace();
     }
-    catch(FileNotFoundException ex)
-    {
+    catch(Exception ex)
+    {// Rethrow exception.
       RuntimeException rException = new RuntimeException(ex.getMessage());
       rException.setStackTrace(ex.getStackTrace());
       throw rException;
-    }
-    catch(IOException ex)
-    {
-      ex.printStackTrace();
     }
 
     return null; // hash failed
