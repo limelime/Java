@@ -13,4 +13,4 @@ fi
 ## Execute build.xml
 ant -f ${NET_XNGO_HOME}/build.xml
 
-cp ${NET_XNGO_HOME}/releases/net.xngo.utils.jar ${NET_XNGO_HOME}/../../FilesHub/FilesHub/releases/latest/libs/
+cp ${NET_XNGO_HOME}/releases/net.xngo.utils.jar ${NET_XNGO_HOME}/../../FilesHub/releases/latest/libs/
