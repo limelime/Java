@@ -204,6 +204,11 @@ public class Connection
     }
   }
   
+  public boolean isClose() throws SQLException
+  {
+    return this.connection.isClosed();
+  }
+  
   public String getQueryString()
   {
     if(values.size()>0)
