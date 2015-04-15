@@ -13,19 +13,27 @@ import org.testng.annotations.Test;
 
 public class StringUtilsTest
 {
-  @Test(description="findWords(): Check words found count.")
+  @Test(description="findStringWords(): Check words found count.")
   public void findWordsBasic()
   {
     String str="I will try to trick you and you will not know it.";
-    int wordsFoundCnt = StringUtils.findWords(str, "you").size();
+    int wordsFoundCnt = StringUtils.findStringWords(str, "you").size();
     assertThat(wordsFoundCnt, equalTo(2));
+  }
+  
+  @Test(description="findStringWords(): Check words found count.")
+  public void findWordsSubstring()
+  {
+    String str="yoyo, I will try to trick you and you will not know it.";
+    int wordsFoundCnt = StringUtils.findStringWords(str, "yo").size();
+    assertThat(wordsFoundCnt, equalTo(3));
   }
   
   @Test(description="findWords(): Not found.")
   public void findWordsNotFound()
   {
     String str="I will try to trick you and you will not know it.";
-    int wordsFoundCnt = StringUtils.findWords(str, "youNotFound").size();
+    int wordsFoundCnt = StringUtils.findStringWords(str, "youNotFound").size();
     assertThat(wordsFoundCnt, equalTo(0));
   }
   
@@ -48,6 +56,25 @@ public class StringUtilsTest
   {
     String str="~!@#$%^ &*()_+=";
     assertFalse(StringUtils.isHex(str));
-  }   
+  }
   
+  @Test(description="indexOfStrings(): Find middle index.")
+  public void indexOfStringsMiddle()
+  {
+    String[] messages={"This is test.", "I don't know", "Who are you?"};
+    int index = StringUtils.indexOfStrings(messages, "don't know");
+    assertEquals(index, 1, "It should return the middle index, which is 1.");
+    
+  }
+  
+  @Test(description="indexOfStrings(): Find middle index.")
+  public void indexOfKeywordsMiddle()
+  {
+    String string="Are you ok?. I don't know.";
+    
+    String[] keywords={"This is test.", "I don't know", "Who are you?"};
+    int index = StringUtils.indexOfKeywords(string, keywords);
+    assertEquals(index, 1, "It should return the middle index, which is 1.");
+    
+  }  
 }

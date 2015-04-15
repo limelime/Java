@@ -174,6 +174,13 @@ public class FileUtils
     }    
   }
   
+  /**
+   * Is file potentially changed?
+   * @param file
+   * @param expectedSize
+   * @param expectedLastModified
+   * @return True if either file size or last modified time changed. Otherwise, false.
+   */
   public static boolean isPotentiallyChanged(File file, long expectedSize, long expectedLastModified)
   {
     if(file.length()==expectedSize && file.lastModified()==expectedLastModified)

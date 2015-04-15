@@ -6,7 +6,13 @@ import java.util.ArrayList;
 
 public class StringUtils
 {
-  public static List<String> findWords(String source, String keyword)
+  /**
+   * Find string in words of a string.
+   * @param source
+   * @param keyword
+   * @return Number of time the string in found.
+   */
+  public static List<String> findStringWords(String source, String keyword)
   {
     List<String> wordsFound = new ArrayList<String>();
     
@@ -20,6 +26,33 @@ public class StringUtils
     return wordsFound;
   }
   
+  /**
+   * 
+   * @param strings
+   * @param keyword
+   * @return Index of string found. Otherwise, return -1 for not found.
+   */
+  public static int indexOfStrings(String[] strings, String keyword)
+  {
+    int index=-1;
+    for(int i=0; i<strings.length; i++)
+    {
+      if(strings[i].contains(keyword))
+        return i;
+    }
+    return index;
+  }
+  
+  public static int indexOfKeywords(String string, String[] keywords)
+  {
+    int index=-1;
+    for(int i=0; i<keywords.length; i++)
+    {
+      if(string.contains(keywords[i]))
+        return i;
+    }
+    return index;
+  }  
   /**
    * @param str
    * @return True if string contains hexadecimal characters. Otherwise, false.
