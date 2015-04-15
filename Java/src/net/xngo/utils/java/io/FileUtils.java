@@ -174,4 +174,11 @@ public class FileUtils
     }    
   }
   
+  public static boolean isPotentiallyChanged(File file, long expectedSize, long expectedLastModified)
+  {
+    if(file.length()==expectedSize && file.lastModified()==expectedLastModified)
+      return false;
+    else
+      return true;
+  }
 }
