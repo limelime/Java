@@ -3,11 +3,21 @@ package net.xngo.utils.test.java.io;
 import java.io.File;
 
 import net.xngo.utils.java.io.FileUtils;
-
+import net.xngo.utils.java.test.Helpers;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.assertFalse;
+
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.equalTo;
+
+
 
 public class FileUtilsTest
 {
@@ -40,4 +50,39 @@ public class FileUtilsTest
     
   }
   
+  @DataProvider(name = "FileChangeMatrix")
+  public static Object[][] fileChangeMatrix()
+  {
+    return new Object[][] { 
+                            // changeSize?, changeLastModified?, expected?
+                            {true, true, true},     
+                            {true, false, true},
+                            {false, false, false},
+                            {false, true, true},
+                        };
+  }    
+  @Test(dataProvider = "FileChangeMatrix")
+  public void isPotentiallyChanged(boolean changeSize, boolean changeLastModified, boolean expected)
+  {
+    //*** Prepare data: Create a file.
+    File file = Helpers.createTempFile("SizeChanged");
+    long oldSize = file.length();
+    long oldLastModified = file.lastModified();
+    
+    //*** Main test: Change last modified time.
+    if(changeSize)
+      Helpers.writeStringToFile(file, " appended to increase file size ", true);
+
+    if(changeLastModified)
+      file.setLastModified(oldLastModified-8);
+    else
+      file.setLastModified(oldLastModified);
+    
+    //*** Validation:
+    boolean isFileChanged = FileUtils.isPotentiallyChanged(file, oldSize, oldLastModified);
+    assertThat(isFileChanged, is(expected));
+    
+    //*** Clean up
+    file.delete();
+  }
 }

@@ -43,4 +43,15 @@ public class Helpers
     return uniqueFile;
   }
   
+  public static void writeStringToFile(final File file, final String content, final boolean append)
+  {
+    try
+    {
+      FileUtils.writeStringToFile(file, content, append);
+    }
+    catch(IOException e)
+    {
+      e.printStackTrace();
+    }
+  }  
 }
