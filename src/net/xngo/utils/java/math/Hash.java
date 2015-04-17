@@ -75,7 +75,8 @@ public class Hash
     }
     catch(Exception ex)
     {// Rethrow exception.
-      RuntimeException rException = new RuntimeException(ex.getMessage());
+      String errorMsg = String.format("%s. Caused by %s.", ex.getMessage(), file.getAbsolutePath());
+      RuntimeException rException = new RuntimeException(errorMsg);
       rException.setStackTrace(ex.getStackTrace());
       throw rException;
     }
